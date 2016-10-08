@@ -1,0 +1,291 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DE7EEC261D79CC210043FACC /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = DE7EEC251D79CC210043FACC /* main.c */; };
+		DE8384571D7E054B00C1958E /* libgurobi65.so in Frameworks */ = {isa = PBXBuildFile; fileRef = DE8384561D7E054B00C1958E /* libgurobi65.so */; };
+		DED71D351D9038AE00FF4730 /* read_excel.c in Sources */ = {isa = PBXBuildFile; fileRef = DED71D331D9038AE00FF4730 /* read_excel.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DE7EEC201D79CC210043FACC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		DE7EEC221D79CC210043FACC /* TEP_gurobi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TEP_gurobi; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE7EEC251D79CC210043FACC /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		DE8384561D7E054B00C1958E /* libgurobi65.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgurobi65.so; path = ../../../../Library/gurobi652/mac64/lib/libgurobi65.so; sourceTree = "<group>"; };
+		DED71D331D9038AE00FF4730 /* read_excel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = read_excel.c; sourceTree = "<group>"; };
+		DED71D341D9038AE00FF4730 /* read_excel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = read_excel.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DE7EEC1F1D79CC210043FACC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE8384571D7E054B00C1958E /* libgurobi65.so in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DE7EEC191D79CC210043FACC = {
+			isa = PBXGroup;
+			children = (
+				DED71D331D9038AE00FF4730 /* read_excel.c */,
+				DED71D341D9038AE00FF4730 /* read_excel.h */,
+				DE8384561D7E054B00C1958E /* libgurobi65.so */,
+				DE7EEC241D79CC210043FACC /* TEP_gurobi */,
+				DE7EEC231D79CC210043FACC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DE7EEC231D79CC210043FACC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DE7EEC221D79CC210043FACC /* TEP_gurobi */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DE7EEC241D79CC210043FACC /* TEP_gurobi */ = {
+			isa = PBXGroup;
+			children = (
+				DE7EEC251D79CC210043FACC /* main.c */,
+			);
+			path = TEP_gurobi;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DE7EEC211D79CC210043FACC /* TEP_gurobi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DE7EEC291D79CC210043FACC /* Build configuration list for PBXNativeTarget "TEP_gurobi" */;
+			buildPhases = (
+				DE7EEC1E1D79CC210043FACC /* Sources */,
+				DE7EEC1F1D79CC210043FACC /* Frameworks */,
+				DE7EEC201D79CC210043FACC /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TEP_gurobi;
+			productName = TEP_gurobi;
+			productReference = DE7EEC221D79CC210043FACC /* TEP_gurobi */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DE7EEC1A1D79CC210043FACC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = zhangcaihua;
+				TargetAttributes = {
+					DE7EEC211D79CC210043FACC = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = DE7EEC1D1D79CC210043FACC /* Build configuration list for PBXProject "TEP_gurobi" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DE7EEC191D79CC210043FACC;
+			productRefGroup = DE7EEC231D79CC210043FACC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DE7EEC211D79CC210043FACC /* TEP_gurobi */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DE7EEC1E1D79CC210043FACC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE7EEC261D79CC210043FACC /* main.c in Sources */,
+				DED71D351D9038AE00FF4730 /* read_excel.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		DE7EEC271D79CC210043FACC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DE7EEC281D79CC210043FACC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DE7EEC2A1D79CC210043FACC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					/Library/gurobi652/mac64/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/gurobi652/mac64/lib",
+					/usr/local/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-lmpi",
+					"-lm",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DE7EEC2B1D79CC210043FACC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					/Library/gurobi652/mac64/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/gurobi652/mac64/lib",
+					/usr/local/lib,
+				);
+				OTHER_LDFLAGS = (
+					"-lmpi",
+					"-lm",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DE7EEC1D1D79CC210043FACC /* Build configuration list for PBXProject "TEP_gurobi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE7EEC271D79CC210043FACC /* Debug */,
+				DE7EEC281D79CC210043FACC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DE7EEC291D79CC210043FACC /* Build configuration list for PBXNativeTarget "TEP_gurobi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE7EEC2A1D79CC210043FACC /* Debug */,
+				DE7EEC2B1D79CC210043FACC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DE7EEC1A1D79CC210043FACC /* Project object */;
+}
