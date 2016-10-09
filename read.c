@@ -146,17 +146,40 @@ int Load_data_read(FILE * fstream, int row, int col, Load_struct* info)
     return 0;
 }
 
-int Cline_struct_read (double *Cline_array,Cline_struct line_info, char mode, double row, double col)
+
+int Cline_struct_read (double *Cline_array, Cline_struct line_info, char mode,double row_struc, double col_struc, double row_need, double col_need)
 {
-    // row is for specific row want to read in
-    // col is for specific col want to read in
+    // The "Cline_struct" is a structure filled with double type pointer. The mamory address is the continuous
+    double *struct_first_member_pt =(line_info.line_Cfrom); //this show the address of first member (pointer)
+    int r = (int) row_need;
+    int c = (int) col_need;
+
+    //********This will read one ROW data********
     if (mode == 'r') // r = row
     {
-        
+        for (int i = 1; i <= (int) col_struc; i++){
+            Cline_array[i-1] = ((struct_first_member_pt) + ((i-1)*(int)row_struc))[r-1];
+        }
     }
+    
+    //********This will read one COLUMN data********
     else if (mode == 'c') // c = column
     {
+        for (int j = 1; j <= (int)row_struc; j++){
+            Cline_array[j-1] = (struct_first_member_pt + ((c-1)*(int)row_struc))[j-1];
+        }
     }
-    else {printf("Please choose mode r or c");}
+    //********This will report ERROR********
+    else {printf("Please choose mode r or c\n");}
+    
     return 0;
 }
+
+
+
+
+
+
+
+
+

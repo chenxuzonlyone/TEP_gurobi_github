@@ -76,7 +76,7 @@ int main()
         printf("%f\t", Gen_info.gen_cost[i]);
         printf("\n");
     }
-    
+
     
     //********This part related to load info********
     int row_load, col_load;
@@ -103,9 +103,47 @@ int main()
         printf("\n");
     }
     
+    //Original Data can not be changed
+    //Cline_struct Cline_info_use = Cline_info;
+    //Gen_struct Gen_info_use = Gen_info;
+    //Load_struct Load_info_use = Load_info;
+    
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
     
 
     
+    //double Cline_array_col[row_cline];
+    double Cline_array_row[col_cline];
+    
+    Cline_struct_read (Cline_array_row, Cline_info,'r',row_cline,col_cline,5,0);
+    
+    for(int i = 0; i< col_cline; i++){
+        printf("line from %f\n", Cline_array_row[i]);
+    }
+    
+    
+//    printf("address %p\n", &Cline_info.line_Cfrom);
+//    printf("address %p\n", &Cline_info.line_Cto);
+//    printf("address %p\n", &Cline_info.line_Ccost);
+//    printf("address %p\n", &Cline_info.line_Creactance);
+//    printf("address %p\n", &Cline_info.line_Climit);
+//    printf("\n");
+    
+//    printf("address %p\n", &Gen_info.gen_busnum);
+//    printf("address %p\n", &Gen_info.gen_min);
+//    printf("address %p\n", &Gen_info.gen_max);
+//    printf("address %p\n", &Gen_info.gen_fixed);
+//    printf("address %p\n", &Gen_info.gen_cost);
+//    
+//    double ** load_bus_add =&Load_info.load_busnum;
+//    double ** load_fix_add =&Load_info.load_fixed;
+//    printf("load bus: address %p\n", &Load_info.load_busnum);
+//    printf("load fix: address %p\n", &Load_info.load_fixed);
+//    printf("load bus: address %p\n", load_bus_add);
+//    printf("load fix: address %p\n", load_fix_add);
     
     
     
