@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		DE7EEC261D79CC210043FACC /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = DE7EEC251D79CC210043FACC /* main.c */; };
 		DE8384571D7E054B00C1958E /* libgurobi65.so in Frameworks */ = {isa = PBXBuildFile; fileRef = DE8384561D7E054B00C1958E /* libgurobi65.so */; };
-		DED71D351D9038AE00FF4730 /* read_excel.c in Sources */ = {isa = PBXBuildFile; fileRef = DED71D331D9038AE00FF4730 /* read_excel.c */; };
+		DE86BD701DAA9531009C8BBD /* change_setting.c in Sources */ = {isa = PBXBuildFile; fileRef = DE86BD6F1DAA9531009C8BBD /* change_setting.c */; };
+		DED71D351D9038AE00FF4730 /* read.c in Sources */ = {isa = PBXBuildFile; fileRef = DED71D331D9038AE00FF4730 /* read.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,8 +29,9 @@
 		DE7EEC221D79CC210043FACC /* TEP_gurobi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TEP_gurobi; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE7EEC251D79CC210043FACC /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		DE8384561D7E054B00C1958E /* libgurobi65.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgurobi65.so; path = ../../../../Library/gurobi652/mac64/lib/libgurobi65.so; sourceTree = "<group>"; };
-		DED71D331D9038AE00FF4730 /* read_excel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = read_excel.c; sourceTree = "<group>"; };
-		DED71D341D9038AE00FF4730 /* read_excel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = read_excel.h; sourceTree = "<group>"; };
+		DE86BD6F1DAA9531009C8BBD /* change_setting.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = change_setting.c; sourceTree = "<group>"; };
+		DED71D331D9038AE00FF4730 /* read.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = read.c; sourceTree = "<group>"; };
+		DED71D341D9038AE00FF4730 /* read.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = read.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,8 +49,9 @@
 		DE7EEC191D79CC210043FACC = {
 			isa = PBXGroup;
 			children = (
-				DED71D331D9038AE00FF4730 /* read_excel.c */,
-				DED71D341D9038AE00FF4730 /* read_excel.h */,
+				DE86BD6F1DAA9531009C8BBD /* change_setting.c */,
+				DED71D331D9038AE00FF4730 /* read.c */,
+				DED71D341D9038AE00FF4730 /* read.h */,
 				DE8384561D7E054B00C1958E /* libgurobi65.so */,
 				DE7EEC241D79CC210043FACC /* TEP_gurobi */,
 				DE7EEC231D79CC210043FACC /* Products */,
@@ -127,8 +130,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE86BD701DAA9531009C8BBD /* change_setting.c in Sources */,
 				DE7EEC261D79CC210043FACC /* main.c in Sources */,
-				DED71D351D9038AE00FF4730 /* read_excel.c in Sources */,
+				DED71D351D9038AE00FF4730 /* read.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

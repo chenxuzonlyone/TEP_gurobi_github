@@ -1,12 +1,12 @@
 //
-//  read_excel.c
+//  read.c
 //  TEP_gurobi
 //
 //  Created by zhangcaihua on 9/19/16.
 //  Copyright © 2016 zhangcaihua. All rights reserved.
 //
 
-#include "read_excel.h"
+#include "read.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -53,7 +53,7 @@ void delimiter_array(int* space_delimiter, int row, int col)
     }
 }
 
-
+// Cline_data_read
 int Cline_data_read(FILE * fstream, int row, int col, Cline_struct* info)
 {
     FILE * fstream_inside = fstream;
@@ -146,3 +146,17 @@ int Load_data_read(FILE * fstream, int row, int col, Load_struct* info)
     return 0;
 }
 
+int Cline_struct_read (double *Cline_array,Cline_struct line_info, char mode, double row, double col)
+{
+    // row is for specific row want to read in
+    // col is for specific col want to read in
+    if (mode == 'r') // r = row
+    {
+        
+    }
+    else if (mode == 'c') // c = column
+    {
+    }
+    else {printf("Please choose mode r or c");}
+    return 0;
+}

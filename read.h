@@ -1,14 +1,14 @@
 //
-//  read_excel.h
+//  read.h
 //  TEP_gurobi
 //
 //  Created by zhangcaihua on 9/19/16.
 //  Copyright © 2016 zhangcaihua. All rights reserved.
 //
 
-#ifndef read_excel_h
-#define read_excel_h
-#endif /* read_excel_h */
+#ifndef read_h
+#define read_h
+#endif /* read_h */
 #define BUFFER_MAX 1024
 
 #include <stdio.h>
