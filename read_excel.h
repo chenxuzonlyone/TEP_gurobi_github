@@ -20,13 +20,24 @@ typedef struct Cline{
     double *line_Climit;
 } Cline_struct;
 
-
 typedef struct Gen{
-    double *
-    
- } Gen_struct;
+    double *gen_busnum;
+    double *gen_min;
+    double *gen_max;
+    double *gen_fixed;
+    double *gen_cost;
+} Gen_struct;
 
-int abs_value (int value);
+
+typedef struct Load{
+    double *load_busnum;
+    double *load_fixed;
+} Load_struct;
+
+
+int abs_value(int value);
 int file_size(FILE * fstream, int *row, int *col); //decide the dimension of matrix
-void delimiter_array(int* space_delimiter,int row, int col); // generate space array 
-int Cline_data_read(FILE * fstream, int row, int col, Cline_struct* Cline_info); //
+void delimiter_array(int* space_delimiter, int row, int col); // generate space array
+int Cline_data_read(FILE * fstream, int row, int col, Cline_struct* Cline_info); //read cline data from file into code
+int Gen_data_read(FILE * fstream, int row, int col, Gen_struct* info);//read gen data from file into code
+int Load_data_read(FILE * fstream, int row, int col, Load_struct* info);//read load data from file into code
