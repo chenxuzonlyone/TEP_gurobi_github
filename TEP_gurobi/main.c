@@ -141,6 +141,7 @@ int main()
     double nplan_year=10;// numbers of planning years ****(control)
     //     Fkl_1            Xkl+Gk_ts           Gk       S1 S2 thata  I
     double nAV=(nCline*nMLC)+(nCline*nMLC)*2+(nGen)+(nbus*3)+nCline_total; //numbers of  annual variable
+    double nVariable_total = nplan_year*nAV;
     
     //basic gen & load info
     double load_P[(int)nload];
@@ -155,7 +156,7 @@ int main()
     double ref_position=1; //reference bus position
     double duration_time=8760; //year duration time (hour) 365*24*60
     double capacity_factor=0.6; // capacity factor of generator 50%
-    double million_transfer=10^6; // transfer unit from dollar to million dollar
+    double million_transfer=pow(10, 6); // transfer unit from dollar to million dollar
     
     double candidate_line_pool[(int)nCline];
     Array_ascend(candidate_line_pool, nCline);
@@ -212,8 +213,97 @@ int main()
     //********end of parameter calculation********
     
     
+    //********This part deal with Gurobi ********
     
-    /********This part will close file and clean memory********/
+    //****This part deal with objective function setting****
+    //double f[(int)nVariable_total];
+    double f[(int)nVariable_total];
+    //Array_initial(f, nVariable_total);
+    Array_initial(f, nVariable_total);
+    int f_pt = 0;
+    
+    for (int i_year = 1; i_year <= nplan_year; i_year++) {
+        for (int i = 0; i<nCline_total;i++){ //flowC_F_t
+            f[f_pt] = 0;
+            f_pt=f_pt+1;
+        }
+        for (int i = 0; i<nCline_total; i++) { //x_F_t
+            f[f_pt] = 0;
+            f_pt=f_pt+1;
+        }
+        double gen_discount_coeff=(capacity_factor*duration_time)/(pow(1+discount_rate, (double)(i_year-1))*million_transfer);
+        for (int i = 0; i<nGen; i++) {//gen_F_t
+            f[f_pt] = Gen_info.gen_cost[i] * gen_discount_coeff;
+            f_pt=f_pt+1;
+        }
+        double s_discount_coeff =(loss_penalty*duration_time)/(pow(1+discount_rate, (double)(i_year-1))*million_transfer);
+        for (int i = 0; i<nbus; i++) {//s1_F_t
+            f[f_pt] =  s_discount_coeff * relax_slack_variable1;
+            f_pt=f_pt+1;
+        }
+        for (int i = 0; i<nbus; i++) {//s2_F_t
+            f[f_pt] =  s_discount_coeff * relax_slack_variable1;
+            f_pt=f_pt+1;
+        }
+        for (int i = 0; i<nbus; i++) {//theta_F_t
+            f[f_pt] =  0;
+            f_pt=f_pt+1;
+        }
+        for (int i = 0; i<nCline_total; i++) {//Kp_ts_F_t (pseudo generator)
+            f[f_pt] =  0;
+            f_pt=f_pt+1;
+        }
+        for (int i = 0; i<nCline_total; i++) {//I_F_t
+            f[f_pt] =  Cline_info.line_Ccost[i]/(pow(1+discount_rate, (double)(i_year-1)));
+            f_pt=f_pt+1;
+        }
+    }
+//testing
+//    for(int i =0;i<f_pt;i++){
+//        printf("i %d \t",i+1);
+//        printf("%f \n", f[i]);
+//    }
+    
+
+    //****This part deal with Gurobi setting****
+    GRBenv *env = NULL;
+    GRBmodel *model = NULL;
+    int error = 0;
+    
+    // Create environment
+    error = GRBloadenv(&env, "TEP_GUROBI.log");
+    if (error) goto QUIT;
+    
+    // Create initial model
+    error = GRBnewmodel(env, &model, "TEP_GUROBI", (int)nVariable_total,
+                        NULL, NULL, NULL, NULL, NULL);
+    if (error) goto QUIT;
+    
+    
+    
+    
+    
+    
+//********This part will deal with code Finish or Crash********
+QUIT:
+    
+    // Error reporting
+    
+    if (error)
+    {
+        printf("ERROR: %s\n", GRBgeterrormsg(env));
+        exit(1);
+    }
+    
+    // Free model
+    
+    GRBfreemodel(model);
+    
+    // Free environment
+    
+    GRBfreeenv(env);
+    
+    //********This part will close file and clean memory********
     fclose(f_cline_stream);
     free(Cline_data_space);
     
