@@ -175,9 +175,61 @@ int Cline_struct_read (double *Cline_array, Cline_struct line_info, char mode,do
     return 0;
 }
 
+int Gen_struct_read (double *Gen_array, Gen_struct gen_info, char mode,double row_struc, double col_struc, double row_need, double col_need)
+{
+    // The "Gen_struct" is a structure filled with double type pointer. The mamory address is the continuous
+    double *struct_first_member_pt =(gen_info.gen_busnum); //this show the address of first member (pointer)
+    int r = (int) row_need;
+    int c = (int) col_need;
+    
+    //********This will read one ROW data********
+    if (mode == 'r') // r = row
+    {
+        for (int i = 1; i <= (int) col_struc; i++){
+            Gen_array[i-1] = ((struct_first_member_pt) + ((i-1)*(int)row_struc))[r-1];
+        }
+    }
+    
+    //********This will read one COLUMN data********
+    else if (mode == 'c') // c = column
+    {
+        for (int j = 1; j <= (int)row_struc; j++){
+            Gen_array[j-1] = (struct_first_member_pt + ((c-1)*(int)row_struc))[j-1];
+        }
+    }
+    //********This will report ERROR********
+    else {printf("Please choose mode r or c\n");}
+    
+    return 0;
+}
 
-
-
+int Load_struct_read (double *Load_array, Load_struct load_info, char mode,double row_struc, double col_struc, double row_need, double col_need)
+{
+    // The "Load_struct" is a structure filled with double type pointer. The mamory address is the continuous
+    double *struct_first_member_pt =(load_info.load_busnum); //this show the address of first member (pointer)
+    int r = (int) row_need;
+    int c = (int) col_need;
+    
+    //********This will read one ROW data********
+    if (mode == 'r') // r = row
+    {
+        for (int i = 1; i <= (int) col_struc; i++){
+            Load_array[i-1] = ((struct_first_member_pt) + ((i-1)*(int)row_struc))[r-1];
+        }
+    }
+    
+    //********This will read one COLUMN data********
+    else if (mode == 'c') // c = column
+    {
+        for (int j = 1; j <= (int)row_struc; j++){
+            Load_array[j-1] = (struct_first_member_pt + ((c-1)*(int)row_struc))[j-1];
+        }
+    }
+    //********This will report ERROR********
+    else {printf("Please choose mode r or c\n");}
+    
+    return 0;
+}
 
 
 

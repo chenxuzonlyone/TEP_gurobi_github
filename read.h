@@ -48,4 +48,6 @@ int Load_data_read(FILE * fstream, int row, int col, Load_struct* info);//read l
 
 
 /*Read data from STRUCTURE*/
-int Cline_struct_read (double *Cline_array, Cline_struct line_info, char mode,double row_struc, double col_struc, double row_need, double col_need);//read candidate line structure. Row or Col is set to "0" when not intend to read
+int Cline_struct_read (double *Cline_array, Cline_struct line_info, char mode,double row_struc, double col_struc, double row_need, double col_need);     //read candidate line structure. Row or Col is set to "0" when not intend to read
+int Gen_struct_read (double *Gen_array, Gen_struct gen_info, char mode,double row_struc, double col_struc, double row_need, double col_need);           // read candidate gen structure. Row or Col is set to "0" when not intend to read
+int Load_struct_read (double *Load_array, Load_struct load_info, char mode,double row_struc, double col_struc, double row_need, double col_need);     // read candidate load structure. Row or Col is set to "0" when not intend to read
