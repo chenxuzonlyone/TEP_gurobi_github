@@ -59,6 +59,7 @@ int Array_ascend(double *Array_asscending, double length); //This will make an a
 int Array_initial(double *Array_initialition, double length);
 int eye(double *eye_array, double length);
 int diag(double *diag_array, double length, double *coeff_array);
+int ones(double *ones_array, double length); // This will give you an array with all one
 
 /*Kl_C, Kp parameter calculation*/
 int Kl_C_set(double *Kl_C, Cline_struct Cline_info, double nbus, double nCline); // Kl_C

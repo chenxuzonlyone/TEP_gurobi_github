@@ -417,3 +417,11 @@ int diag(double *diag_array, double length, double *coeff_array)
      */
     return 0;
 }
+
+int ones(double *ones_array, double length)
+{
+    for (int i = 0; i <= (int)length; ++i){
+        ones_array[i] = 1;
+    }
+    return 0;
+}
