@@ -10,6 +10,7 @@
 #define COL_LOAD 2
 #define COL_BUS 1
 #define BUS_NUM 6
+#define MAXSTR 128
 
 int main()
 {
@@ -258,17 +259,18 @@ int main()
             f_pt=f_pt+1;
         }
     }
-//testing
-//    for(int i =0;i<f_pt;i++){
-//        printf("i %d \t",i+1);
-//        printf("%f \n", f[i]);
-//    }
+    //testing
+    //    for(int i =0;i<f_pt;i++){
+    //        printf("i %d \t",i+1);
+    //        printf("%f \n", f[i]);
+    //    }
     
 
     //****This part deal with Gurobi setting****
     GRBenv *env = NULL;
     GRBmodel *model = NULL;
     int error = 0;
+    char vname[MAXSTR];
     
     // Create environment
     error = GRBloadenv(&env, "TEP_GUROBI.log");
@@ -279,7 +281,116 @@ int main()
                         NULL, NULL, NULL, NULL, NULL);
     if (error) goto QUIT;
     
+    //Update model
+    error = GRBupdatemodel(model);
+    if (error) goto QUIT;
     
+    /* Initialize decision variables for plant open variables */
+    for (int i_total = 0; i_total < nVariable_total; )
+    {
+        //Fkl_1
+        for (int i_C_Cline = 0; i_C_Cline<nCline_total; i_C_Cline++) {
+            error = GRBsetcharattrelement(model, "VType", i_total, GRB_CONTINUOUS);
+            if (error) goto QUIT;
+            error = GRBsetdblattrelement(model, "Obj", i_total, f[i_total]);
+            if (error) goto QUIT;
+            sprintf(vname, "Fkl_%i", i_total);
+            error = GRBsetstrattrelement(model, "VarName", i_total, vname);
+            if (error) goto QUIT;
+            i_total++;
+        }
+        printf("i_total %d \n", i_total);
+        //Xkl
+        for (int i_B_Xkl = 0; i_B_Xkl<nCline_total; i_B_Xkl++) {
+            error = GRBsetcharattrelement(model, "VType", i_total, GRB_BINARY);
+            if (error) goto QUIT;
+            error = GRBsetdblattrelement(model, "Obj", i_total, f[i_total]);
+            if (error) goto QUIT;
+            sprintf(vname, "Xkl_%i", i_total);
+            error = GRBsetstrattrelement(model, "VarName", i_total, vname);
+            if (error) goto QUIT;
+            i_total++;
+        }
+        printf("i_total %d \n", i_total);
+        //Gk
+        for (int i_C_Gk = 0; i_C_Gk<nGen; i_C_Gk++) {
+            error = GRBsetcharattrelement(model, "VType", i_total, GRB_CONTINUOUS);
+            if (error) goto QUIT;
+            error = GRBsetdblattrelement(model, "Obj", i_total, f[i_total]);
+            if (error) goto QUIT;
+            sprintf(vname, "Gkl_%i", i_total);
+            error = GRBsetstrattrelement(model, "VarName", i_total, vname);
+            if (error) goto QUIT;
+            i_total++;
+        }
+        printf("i_total %d \n", i_total);
+        //Rk1
+        for (int i_C_Rk1 = 0; i_C_Rk1<nbus; i_C_Rk1++) {
+            error = GRBsetcharattrelement(model, "VType", i_total, GRB_CONTINUOUS);
+            if (error) goto QUIT;
+            error = GRBsetdblattrelement(model, "Obj", i_total, f[i_total]);
+            if (error) goto QUIT;
+            sprintf(vname, "Rk1_%i", i_total);
+            error = GRBsetstrattrelement(model, "VarName", i_total, vname);
+            if (error) goto QUIT;
+            i_total++;
+        }
+        printf("i_total %d \n", i_total);
+        //Rk2
+        for (int i_C_Rk2 = 0; i_C_Rk2<nbus; i_C_Rk2++) {
+            error = GRBsetcharattrelement(model, "VType", i_total, GRB_CONTINUOUS);
+            if (error) goto QUIT;
+            error = GRBsetdblattrelement(model, "Obj", i_total, f[i_total]);
+            if (error) goto QUIT;
+            sprintf(vname, "Rk1_%i", i_total);
+            error = GRBsetstrattrelement(model, "VarName", i_total, vname);
+            if (error) goto QUIT;
+            i_total++;
+        }
+        printf("i_total %d \n", i_total);
+        //theta
+        for (int i_C_theta = 0; i_C_theta<nbus; i_C_theta++) {
+            error = GRBsetcharattrelement(model, "VType", i_total, GRB_CONTINUOUS);
+            if (error) goto QUIT;
+            error = GRBsetdblattrelement(model, "Obj", i_total, f[i_total]);
+            if (error) goto QUIT;
+            sprintf(vname, "Rk2_%i", i_total);
+            error = GRBsetstrattrelement(model, "VarName", i_total, vname);
+            if (error) goto QUIT;
+            i_total++;
+        }
+        printf("i_total %d \n", i_total);
+        //Gk_ts
+        for (int i_C_Gk_ts = 0; i_C_Gk_ts<nCline_total; i_C_Gk_ts++) {
+            error = GRBsetcharattrelement(model, "VType", i_total, GRB_CONTINUOUS);
+            if (error) goto QUIT;
+            error = GRBsetdblattrelement(model, "Obj", i_total, f[i_total]);
+            if (error) goto QUIT;
+            sprintf(vname, "Gk_ts_%i", i_total);
+            error = GRBsetstrattrelement(model, "VarName", i_total, vname);
+            if (error) goto QUIT;
+            i_total++;
+        }
+        printf("i_total %d \n", i_total);
+        //I
+        for (int i_B_I = 0; i_B_I<nCline_total; i_B_I++) {
+            error = GRBsetcharattrelement(model, "VType", i_total, GRB_BINARY);
+            if (error) goto QUIT;
+            error = GRBsetdblattrelement(model, "Obj", i_total, f[i_total]);
+            if (error) goto QUIT;
+            sprintf(vname, "I_%i", i_total);
+            error = GRBsetstrattrelement(model, "VarName", i_total, vname);
+            if (error) goto QUIT;
+            i_total++;
+        }
+        printf("i_total %d \n", i_total);
+
+    }
+    
+    //Update model due to lazy model update strategy
+    error = GRBupdatemodel(model);
+    if (error) goto QUIT;
+    GRBwrite (model, "groubi_obj.lp" );
     
     
     
