@@ -45,6 +45,8 @@ int main()
         printf("%f\t", Cline_info.line_Climit[i]);
         printf("\n");
     }
+    //********Cline info ending********
+    
     
     //********This part related to gen info********
     int row_gen, col_gen;
@@ -76,7 +78,7 @@ int main()
         printf("%f\t", Gen_info.gen_cost[i]);
         printf("\n");
     }
-
+    //********gen info ending********
     
     //********This part related to load info********
     int row_load, col_load;
@@ -102,6 +104,7 @@ int main()
         printf("%f\t", Load_info.load_fixed[i]);
         printf("\n");
     }
+    //********load info ending********
     
     //********This part related to number setting********
     
@@ -111,7 +114,6 @@ int main()
     double relax_slack_variable2=0.0; //regard as no slack variable
     double relax_gen_variable=1.0;    //0 regard gen as known variables; 1 regard as unknown
     double relax_candidateline_variable = 1.0;   //empty matrix means no candidate line; 1 means candidate lines exist
-    
     double load_change=1.0;           //(control)
     
     //********given parameter********
@@ -141,7 +143,7 @@ int main()
     double nAV=(nCline*nMLC)+(nCline*nMLC)*2+(nGen)+(nbus*3)+nCline_total; //numbers of  annual variable
     
     //basic gen & load info
-    double *load_P;
+    double load_P[(int)nload];
     Load_struct_read (load_P, Load_info, 'c' ,row_load, row_load, 0, load_fixed);// load at each bus
     Array_coef_multiply(load_P, load_change, row_load); // load with coeff.
     
@@ -155,11 +157,59 @@ int main()
     double capacity_factor=0.6; // capacity factor of generator 50%
     double million_transfer=10^6; // transfer unit from dollar to million dollar
     
-    double *candidate_line_pool;
+    double candidate_line_pool[(int)nCline];
     Array_ascend(candidate_line_pool, nCline);
-    
     /********This is end related to number setting********/
+    
+    //********parameter calculation********
+    //bus related incidence matrix
+    
+    // bus branch incidence matrix
+    double Kl_C[(int)(nbus*nCline)];
+    Array_initial(Kl_C, nbus*nCline); //initialize array
+    //candidate
+    Kl_C_set(Kl_C, Cline_info, nbus, nCline);
+   
+    // bus generation incidence matrix
+    double Kp[(int)(nbus*nGen)];
+    Array_initial(Kp, nbus*nGen); //initialize array
+    Kp_set(Kp, Gen_info, nbus, nGen);
+    
+    // bus pseudo generator incidence matrix (ts: transmission switching)
+    double Kp_ts[(int)(nbus*nCline)];
+    Array_initial(Kp_ts, nbus*nCline); //initialize array
+    Kp_ts_set(Kp_ts, Cline_info, nbus, nCline);
+    
+    // bus load incidence matrix
+    double Kd[(int)(nbus*nload)];
+    Array_initial(Kp_ts, nbus*nload); //initialize array
+    Kd_set(Kd, Load_info, nbus, nload);
 
+    // bus slack variable incidence matrix
+    double Kr1[(int)(nbus*nbus)];
+    Array_initial(Kr1, nbus*nbus);
+    double Kr2[(int)(nbus*nbus)];
+    Array_initial(Kr2, nbus*nbus);
+    eye(Kr1, nbus);
+    eye(Kr2, nbus);
+    
+    // bus angle(theta) incidence matrix
+    double Ka[(int)(nbus*nbus)];
+    Array_initial(Ka, nbus*nbus);
+    eye(Ka, nbus);
+    
+    // branch reactance matrix
+    double X_C[(int)(nCline*nCline)];
+    Array_initial(X_C, nCline*nCline);
+    
+    double resist_array[(int)nCline];
+    Array_initial(resist_array, nCline);
+    
+    Cline_struct_read (resist_array, Cline_info, 'c', row_cline, col_cline, 0, line_Creactance);
+    Array_coef_multiply(load_P, load_change, row_load); // load with coeff.
+    
+    diag(X_C, nCline, resist_array);
+    //********end of parameter calculation********
     
     
     

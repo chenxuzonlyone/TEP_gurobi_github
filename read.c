@@ -231,7 +231,6 @@ int Load_struct_read (double *Load_array, Load_struct load_info, char mode,doubl
     return 0;
 }
 
-// This is untested This is untested This is untested This is untested This is untested This is untested This is untested
 // This will let every element in the array multiply the coefficient
 int Array_coef_multiply(double *Array_need_multiply, double coeff, double length)
 {
@@ -241,7 +240,7 @@ int Array_coef_multiply(double *Array_need_multiply, double coeff, double length
     }
     return 0;
 }
-// This is untested This is untested This is untested This is untested This is untested This is untested This is untested
+
 //This will make an array with contents from 1 to length+1
 int Array_ascend(double *Array_asscending, double length)
 {
@@ -252,4 +251,169 @@ int Array_ascend(double *Array_asscending, double length)
     return 0;
 }
 
+// Array initialization
+int Array_initial(double *Array_initialition, double length)
+{
+    int l = (int) length;
+    for (int i = 0; i < l; i++) {
+        Array_initialition[i] = 0;
+    }
+    return 0;
+}
 
+
+int Kl_C_set(double *Kl_C, Cline_struct Cline_info, double nbus, double nCline)
+{
+    for (int i = 0; i < (int)nCline; ++i)
+    {
+        int l_from =(int)(Cline_info.line_Cfrom[i] -1)*nCline + i; // row * row_num + col
+        int l_to =(int)(Cline_info.line_Cto[i] -1)*nCline + i; // row * row_num + col
+
+        Kl_C[l_from] = 1.0;
+        Kl_C[l_to] =  -1.0;
+        //For testing purpose
+        //printf("line from : %d \t", l_from);
+        //printf("line to : %d \t", l_to);
+        //printf("\n");
+    }
+    //Output to a file
+    FILE *fp;
+    fp = fopen("Kl_C.txt", "w+");
+    for (int i = 0; i<(int)(nbus*nCline); i++) {
+        fprintf(fp, "%f", Kl_C[i]);
+        fprintf(fp, "\t");
+        if (((i+1)%(int)nCline) == 0){
+            fprintf(fp, "\n");
+        }
+    }
+    fclose(fp);
+    return 0;
+}
+
+int Kp_set(double *Kp, Gen_struct Gen_info, double nbus, double nGen)
+{
+    for (int i = 0; i < (int)nGen; ++i)
+    {
+        int g_num =(int)(Gen_info.gen_busnum[i] -1)*nGen + i; // row * row_num + col
+        Kp[g_num] = 1.0;
+        //For testing purpose
+        //printf("gen_bus_number : %d \t", g_num);
+        //printf("\n");
+    }
+    //Output to a file
+    FILE *fp;
+    fp = fopen("Kp.txt", "w+");
+    for (int i = 0; i<(int)(nbus*nGen); i++) {
+        fprintf(fp, "%f", Kp[i]);
+        fprintf(fp, "\t");
+        if (((i+1)%(int)nGen) == 0){
+            fprintf(fp, "\n");
+        }
+    }
+    fclose(fp);
+    return 0;
+}
+
+int Kp_ts_set(double *Kp_ts, Cline_struct Cline_info, double nbus, double nCline)
+{
+    for (int i = 0; i < (int)nCline; ++i)
+    {
+        int l_from =(int)(Cline_info.line_Cfrom[i] -1)*nCline + i; // row * row_num + col
+        int l_to =(int)(Cline_info.line_Cto[i] -1)*nCline + i; // row * row_num + col
+        
+        Kp_ts[l_from] = 1.0;
+        Kp_ts[l_to] =  -1.0;
+        //For testing purpose
+        //printf("line from : %d \t", l_from);
+        //printf("line to : %d \t", l_to);
+        //printf("\n");
+    }
+    //Output to a file
+    FILE *fp;
+    fp = fopen("Kp_ts.txt", "w+");
+    for (int i = 0; i<(int)(nbus*nCline); i++) {
+        fprintf(fp, "%f", Kp_ts[i]);
+        fprintf(fp, "\t");
+        if (((i+1)%(int)nCline) == 0){
+            fprintf(fp, "\n");
+        }
+    }
+    fclose(fp);
+    return 0;
+}
+
+
+int Kd_set(double *Kd, Load_struct Load_info, double nbus, double nload)
+{
+    for (int i = 0; i < (int)nload; ++i)
+    {
+        int load_num =(int)(Load_info.load_busnum[i] -1)*nload + i; // row * row_num + col
+        Kd[load_num] = 1.0;
+        //For testing purpose
+        //printf("load_bus_number : %d \t", load_num);
+        //printf("\n");
+    }
+    //Output to a file
+    FILE *fp;
+    fp = fopen("Kd.txt", "w+");
+    for (int i = 0; i<(int)(nbus*nload); i++) {
+        fprintf(fp, "%f", Kd[i]);
+        fprintf(fp, "\t");
+        if (((i+1)%(int)nload) == 0){
+            fprintf(fp, "\n");
+        }
+    }
+    fclose(fp);
+    return 0;
+}
+
+int eye(double *eye_array, double length)
+{
+    for (int i = 0; i < (int)length; ++i)
+    {
+        int eye_num =(int)(i*length) + i; // row * row_num + col
+        eye_array[eye_num] = 1.0;
+        //For testing purpose
+        //printf("eye : %d \t", eye_num);
+        //printf("\n");
+    }
+    //Output to a file
+    /*
+    FILE *fp;
+    fp = fopen("eye.txt", "w+");
+    for (int i = 0; i<(int)(length*length); i++) {
+        fprintf(fp, "%f", eye_array[i]);
+        fprintf(fp, "\t");
+        if (((i+1)%(int)length) == 0){
+            fprintf(fp, "\n");
+        }
+    }
+    fclose(fp);
+     */
+    return  0;
+}
+
+int diag(double *diag_array, double length, double *coeff_array)
+{
+    for (int i = 0; i < (int)length; ++i)
+    {
+        int diag_num =(int)(i*length) + i; // row * row_num + col
+        diag_array[diag_num] = coeff_array[i];
+        //For testing purpose
+        //printf("eye : %d \t", eye_num);
+        //printf("\n");
+    }
+    /*
+    FILE *fp;
+    fp = fopen("diag.txt", "w+");
+    for (int i = 0; i<(int)(length*length); i++) {
+        fprintf(fp, "%f", diag_array[i]);
+        fprintf(fp, "\t");
+        if (((i+1)%(int)length) == 0){
+            fprintf(fp, "\n");
+        }
+    }
+    fclose(fp);
+     */
+    return 0;
+}

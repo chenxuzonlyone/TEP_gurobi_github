@@ -53,6 +53,16 @@ int Gen_struct_read (double *Gen_array, Gen_struct gen_info, char mode,double ro
 int Load_struct_read (double *Load_array, Load_struct load_info, char mode,double row_struc, double col_struc, double row_need, double col_need);     // read candidate load structure. Row or Col is set to "0" when not intend to read
 
 
-/*Array multiply a coefficient*/
+/*Array operation*/
 int Array_coef_multiply(double *Array_need_multiply, double coeff, double length);//This will let every element in the array multiply the coefficient
 int Array_ascend(double *Array_asscending, double length); //This will make an array with contents from 1 to length+1
+int Array_initial(double *Array_initialition, double length);
+int eye(double *eye_array, double length);
+int diag(double *diag_array, double length, double *coeff_array);
+
+/*Kl_C, Kp parameter calculation*/
+int Kl_C_set(double *Kl_C, Cline_struct Cline_info, double nbus, double nCline); // Kl_C
+int Kp_set(double *Kp, Gen_struct Gen_info, double nbus, double nGen);// Kp
+int Kp_ts_set(double *Kp_ts, Cline_struct Cline_info, double nbus, double nCline);//Kp_ts
+int Kd_set(double *Kd, Load_struct Load_info, double nbus, double nload); // kd
+

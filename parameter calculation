@@ -1,0 +1,28 @@
+//********parameter calculation********
+//bus related incidence matrix
+// bus branch incidence matrix
+
+ % bus generation incidence matrix
+ Kp=zeros(nbus,nGen);
+ for i=1:nGen
+    Kp(gen_info(i,gen_busnum),i)= 1;
+ end
+% bus pseudo generator incidence matrix (ts: transmission switching)
+Kp_ts=zeros(nbus,nCline);
+for i=1:nCline
+    Kp_ts(Cline_info(i,line_Cfrom),i)= 1;
+    Kp_ts(Cline_info(i,line_Cto  ),i)=-1;
+end
+% bus load incidence matrix
+ Kd=zeros(nbus,nload);
+ for i=1:nload
+    Kd(load_info(i,load_busnum),i)= 1;
+ end
+% bus slack variable incidence matrix
+Kr1=eye(nbus);
+Kr2=eye(nbus);
+% bus angle(theta) incidence matrix
+Ka=eye(nbus); 
+% branch reactance matrix
+X_E=diag(Eline_info(:,line_Ereactance));
+X_C=diag(Cline_info(:,line_Creactance));
