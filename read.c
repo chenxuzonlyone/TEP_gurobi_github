@@ -231,7 +231,25 @@ int Load_struct_read (double *Load_array, Load_struct load_info, char mode,doubl
     return 0;
 }
 
-
-
+// This is untested This is untested This is untested This is untested This is untested This is untested This is untested
+// This will let every element in the array multiply the coefficient
+int Array_coef_multiply(double *Array_need_multiply, double coeff, double length)
+{
+    int l = (int) length;
+    for (int i = 0; i < l; i++){
+        Array_need_multiply[i] = Array_need_multiply[i] * coeff;
+    }
+    return 0;
+}
+// This is untested This is untested This is untested This is untested This is untested This is untested This is untested
+//This will make an array with contents from 1 to length+1
+int Array_ascend(double *Array_asscending, double length)
+{
+    int l = (int) length;
+    for (int i = 0; i < l; i++){
+        Array_asscending[i] = i+1;
+    }
+    return 0;
+}
 
 
