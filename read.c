@@ -266,8 +266,8 @@ int Kl_C_set(double *Kl_C, Cline_struct Cline_info, double nbus, double nCline)
 {
     for (int i = 0; i < (int)nCline; ++i)
     {
-        int l_from =(int)(Cline_info.line_Cfrom[i] -1)*nCline + i; // row * row_num + col
-        int l_to =(int)(Cline_info.line_Cto[i] -1)*nCline + i; // row * row_num + col
+        int l_from =(int)(Cline_info.line_Cfrom[i] -1)*nCline + i; // row * col_num + col
+        int l_to =(int)(Cline_info.line_Cto[i] -1)*nCline + i; // row * col_num + col
 
         Kl_C[l_from] = 1.0;
         Kl_C[l_to] =  -1.0;

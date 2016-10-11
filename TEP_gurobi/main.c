@@ -11,6 +11,7 @@
 #define COL_BUS 1
 #define BUS_NUM 6
 #define MAXSTR 128
+#define DELIMINATE_NUM  10e5
 
 int main()
 {
@@ -36,16 +37,16 @@ int main()
     
     Cline_data_read(f_cline_stream, row_cline, col_cline, &Cline_info);//read data from file
     
-    for (int i = 0; i< row_cline; i++)
-    {
-        
-        printf("%f\t", Cline_info.line_Cfrom[i]);
-        printf("%f\t", Cline_info.line_Cto[i]);
-        printf("%f\t", Cline_info.line_Ccost[i]);
-        printf("%f\t", Cline_info.line_Creactance[i]);
-        printf("%f\t", Cline_info.line_Climit[i]);
-        printf("\n");
-    }
+//    for (int i = 0; i< row_cline; i++)
+//    {
+//        
+//        printf("%f\t", Cline_info.line_Cfrom[i]);
+//        printf("%f\t", Cline_info.line_Cto[i]);
+//        printf("%f\t", Cline_info.line_Ccost[i]);
+//        printf("%f\t", Cline_info.line_Creactance[i]);
+//        printf("%f\t", Cline_info.line_Climit[i]);
+//        printf("\n");
+//    }
     //********Cline info ending********
     
     
@@ -69,16 +70,16 @@ int main()
     
     Gen_data_read(f_gen_stream, row_gen, col_gen, &Gen_info);//read data from file
     
-    for (int i = 0; i< row_gen; i++)
-    {
-        
-        printf("%f\t", Gen_info.gen_busnum[i]);
-        printf("%f\t", Gen_info.gen_min[i]);
-        printf("%f\t", Gen_info.gen_max[i]);
-        printf("%f\t", Gen_info.gen_fixed[i]);
-        printf("%f\t", Gen_info.gen_cost[i]);
-        printf("\n");
-    }
+//    for (int i = 0; i< row_gen; i++)
+//    {
+//        
+//        printf("%f\t", Gen_info.gen_busnum[i]);
+//        printf("%f\t", Gen_info.gen_min[i]);
+//        printf("%f\t", Gen_info.gen_max[i]);
+//        printf("%f\t", Gen_info.gen_fixed[i]);
+//        printf("%f\t", Gen_info.gen_cost[i]);
+//        printf("\n");
+//    }
     //********gen info ending********
     
     //********This part related to load info********
@@ -98,13 +99,13 @@ int main()
     
     Load_data_read(f_load_stream, row_load, col_load, &Load_info);//read data from file
     
-    for (int i = 0; i< row_load; i++)
-    {
-        
-        printf("%f\t", Load_info.load_busnum[i]);
-        printf("%f\t", Load_info.load_fixed[i]);
-        printf("\n");
-    }
+//    for (int i = 0; i< row_load; i++)
+//    {
+//        
+//        printf("%f\t", Load_info.load_busnum[i]);
+//        printf("%f\t", Load_info.load_fixed[i]);
+//        printf("\n");
+//    }
     //********load info ending********
     
     //********This part related to number setting********
@@ -171,6 +172,8 @@ int main()
     Array_initial(Kl_C, nbus*nCline); //initialize array
     //candidate
     Kl_C_set(Kl_C, Cline_info, nbus, nCline);
+    
+    
    
     // bus generation incidence matrix
     double Kp[(int)(nbus*nGen)];
@@ -489,6 +492,115 @@ int main()
     
     // ******** The end of set the TYPE, COEFFICIENT, and UPPER,LOWER BOUND of all variable ********
     
+    // ******** The begining of set Nodal Balance constraints ********
+    
+    double non_zero_num = 0;
+    double p_position[BUFFER_MAX];
+    double n_position[BUFFER_MAX];
+    double p_value[BUFFER_MAX];
+    double n_value[BUFFER_MAX];
+    ones(p_position, BUFFER_MAX);
+    ones(n_position, BUFFER_MAX);
+    Array_initial(p_value, BUFFER_MAX);
+    Array_initial(n_value, BUFFER_MAX);
+    Array_coef_multiply(p_position, DELIMINATE_NUM, BUFFER_MAX);//a huge number to tell the different
+    Array_coef_multiply(n_position, DELIMINATE_NUM, BUFFER_MAX);
+    int p_pt = 0;
+    int n_pt = 0;
+    int position_pt = 0;
+    
+    //Fkl_1
+    for (int i = 0; i < nCline; i++) {
+        //printf("KL_c %f\n",Kl_C[(int)(0+i*nCline)]);
+        if (Kl_C[(int)(i + 0)] > 0) { //0+(i-1): the 0 can be used as variable
+            ++non_zero_num;
+            p_position[p_pt] = position_pt;
+            p_value[p_pt] = Kl_C[(int)(i + 0)];
+            ++p_pt;
+        }
+        if (Kl_C[(int)(i + 0)] < 0) { //0+(i-1): the 0 can be used as variable
+            ++non_zero_num;
+            n_position[n_pt] = position_pt;
+            n_value[p_pt] = Kl_C[(int)(i + 0)];
+            ++n_pt;
+        }
+        ++position_pt;
+    }
+    
+    //Xkl
+    position_pt = position_pt + nCline;
+    
+    //Gk
+    for (int i = 0; i < nGen; i++) {
+        
+        if (-(Kp[(int)(i + 0)]) > 0) { //0+(i-1): the 0 can be used as variable
+            ++non_zero_num;
+            p_position[p_pt] = position_pt;
+            p_value[p_pt] = -(Kp[(int)(i + 0)]);
+            ++p_pt;
+        }
+        if (-(Kp[(int)(i + 0)]) < 0) { //0+(i-1): the 0 can be used as variable
+            ++non_zero_num;
+            n_position[n_pt] = position_pt;
+            n_value[p_pt] = -(Kp[(int)(i + 0)]);
+            ++n_pt;
+        }
+        ++position_pt;
+    }
+    
+    //Rk1
+    position_pt = position_pt + nbus;
+    
+    //Rk2
+    position_pt = position_pt + nbus;
+    
+    //theta
+    position_pt = position_pt + nbus;
+
+    //Gk_ts (it is the reverse of candidate line flow)
+    for (int i = 0; i < nCline; i++) {
+        if (-(Kl_C[(int)(i + 0)]) > 0) { //0+(i-1): the 0 can be used as variable
+            ++non_zero_num;
+            p_position[p_pt] = position_pt;
+            p_value[p_pt] = -(Kl_C[(int)(i + 0)]);
+            ++p_pt;
+        }
+        if (-(Kl_C[(int)(i + 0)]) < 0) { //0+(i-1): the 0 can be used as variable
+            ++non_zero_num;
+            n_position[n_pt] = position_pt;
+            n_value[p_pt] = -(Kl_C[(int)(i + 0)]);
+            ++n_pt;
+        }
+        ++position_pt;
+    }
+    
+    //I
+    position_pt = position_pt + nCline;
+    
+    double ind_t[(int)non_zero_num];
+    double val_t[(int)non_zero_num];
+    Array_initial(ind_t, non_zero_num);
+    Array_initial(val_t, non_zero_num);
+    int ind_pt = 0;
+    
+    for (int i = 0; i < (int) p_pt; i++) { //positive coefficient
+        ind_t[ind_pt] = p_position[i];
+        val_t[ind_pt] = p_position[i];
+    }
+    for (int i = 0; i < (int) n_pt; i++) { //negative coefficient
+        ind_t[ind_pt] = n_position[i];
+    }
+    
+    //char constraint_name[MAXSTR];
+    //sprintf(constraint_name, "%ist", 1);
+    //printf("%s\n",constraint_name);
+    // Add a constraint
+    //error = GRBaddconstr(model, (int)non_zero_num, ind, val, GRB_EQUAL, 1.0, "New");
+    
+    
+    
+    
+    
     
     
 //********This part will deal with code Finish or Crash********
@@ -521,4 +633,3 @@ QUIT:
     free(Load_data_space);
     return 0;
 }
-
