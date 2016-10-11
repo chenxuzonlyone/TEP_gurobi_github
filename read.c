@@ -261,6 +261,15 @@ int Array_initial(double *Array_initialition, double length)
     return 0;
 }
 
+// Array initialization
+int Array_initial_int(int *Array_initialition, double length)
+{
+    int l = (int) length;
+    for (int i = 0; i < l; i++) {
+        Array_initialition[i] = (int)0;
+    }
+    return 0;
+}
 
 int Kl_C_set(double *Kl_C, Cline_struct Cline_info, double nbus, double nCline)
 {

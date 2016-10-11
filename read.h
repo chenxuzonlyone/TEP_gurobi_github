@@ -57,6 +57,7 @@ int Load_struct_read (double *Load_array, Load_struct load_info, char mode,doubl
 int Array_coef_multiply(double *Array_need_multiply, double coeff, double length);//This will let every element in the array multiply the coefficient
 int Array_ascend(double *Array_asscending, double length); //This will make an array with contents from 1 to length+1
 int Array_initial(double *Array_initialition, double length);
+int Array_initial_int(int *Array_initialition, double length);
 int eye(double *eye_array, double length);
 int diag(double *diag_array, double length, double *coeff_array);
 int ones(double *ones_array, double length); // This will give you an array with all one
