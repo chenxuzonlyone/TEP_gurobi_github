@@ -187,8 +187,15 @@ int main()
     
     // bus load incidence matrix
     double Kd[(int)(nbus*nload)];
-    Array_initial(Kp_ts, nbus*nload); //initialize array
+    Array_initial(Kd, nbus*nload); //initialize array
     Kd_set(Kd, Load_info, nbus, nload);
+    
+//    for (int i = 0; i<6; i++) {
+//        for (int j = 0; j<6;j++) {
+//            printf("%f \t", Kd[i*6+j]);
+//        }
+//        printf("\n");
+//    }
 
     // bus slack variable incidence matrix
     double Kr1[(int)(nbus*nbus)];
@@ -595,27 +602,32 @@ int main()
         val_t[ind_pt] = n_value[i];
         ++ind_pt;
     }
-    for (int i=0; i<7; i++) {
-        printf("val %f\t",val_t[i]);
-        printf("ind %d\n",ind_t[i]);
-    }
+//    for (int i=0; i<7; i++) {
+//        printf("val %f\t",val_t[i]);
+//        printf("ind %d\n",ind_t[i]);
+//    }
     
     //For the b part of Ax<=b
-    double load_increase_coef = pow((1+load_increase_factor), 0); // This will be changed due to the years
+    double load_increase_coef = pow((1+load_increase_factor), 0); // This will be changed due to the years/////
     double load_Pt[(int)nload];
-    double load_NB_t[(int)nload];
+    double load_NB_t[(int)nbus];
+    Array_initial(load_Pt, nload);
     Array_initial(load_NB_t, nload);
     
-    Array_coef_multiply(load_Pt, load_increase_coef, nload);
+    Matrix_multiply(load_Pt, load_P, nload, 1.0, &load_increase_coef, 1.0, 1.0);//load_Pt=load_P*load_increase_coef
+    Matrix_multiply(load_NB_t, Kd, nbus, nload, load_P, nload, 1.0);//load_NB_t=Kd*load_Pt
     
 
     
-    
+//    for (int i = 0; i<nload; i++) {
+//        printf("load_NB_t :%f\n", load_NB_t[i]);
+//        //printf("load_Pt :%f\n", load_Pt[i]);
+//    }
     
     char constraint_name[MAXSTR];
     sprintf(constraint_name, "%i_constraint", 1);
     // Add a constraint
-    error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, load_Pt[0], constraint_name);
+    error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, -load_NB_t[0], constraint_name);//load is negative value at this moment
     //Update model due to lazy model update strategy
     error = GRBupdatemodel(model);
     //if (error) goto QUIT;

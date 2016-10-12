@@ -435,7 +435,7 @@ int ones(double *ones_array, double length)
     return 0;
 }
 
-int matrix_multiply(double *outcome, double *matrix_a, double a_row, double a_col, double *matrix_b, double b_row, double b_col)
+int Matrix_multiply(double *outcome, double *matrix_a, double a_row, double a_col, double *matrix_b, double b_row, double b_col)
 {
     Array_initial(outcome, a_row*b_col);
     int a_row_int = (int)a_row;
@@ -446,11 +446,29 @@ int matrix_multiply(double *outcome, double *matrix_a, double a_row, double a_co
     for (int i_a = 0; i_a < a_row_int; i_a++) {
         for (int j_b = 0; j_b < b_col_int; j_b++) {
             for (int j_a = 0; j_a < a_col_int; j_a++) {
-                outcome[(i_a)*(b_col_int)+j_b] = (outcome[(i_a)*(b_col_int)+j_b])+matrix_a[j_a+ i_a*(a_col_int)] * matrix_b[(j_a)*b_col_int + j_b];;
-                //printf("%f\n", matrix_a[j_a+ i_a*(a_col_int)] * matrix_b[(j_a)*b_col_int + j_b]);
+                
+                outcome[(i_a)*(b_col_int)+j_b] = (outcome[(i_a)*(b_col_int)+j_b])+matrix_a[j_a+ i_a*(a_col_int)] * matrix_b[(j_a)*b_col_int + j_b];
+//                printf("%f\n", matrix_a[j_a+ i_a*(a_col_int)]);
+//                printf("%f\n", matrix_b[(j_a)*b_col_int +j_b]);
+//                printf("%f\n", matrix_a[j_a+ i_a*(a_col_int)] * matrix_b[(j_a)*b_col_int + j_b]);
             }
         }
     }
+    
+//    for (int i = 0; i<a_row_int; i++) {
+//        for (int j = 0; j<a_col_int;j++) {
+//            printf("%f \t", matrix_a[i*a_col_int+j]);
+//        }
+//        printf("\n");
+//    }
+//    for (int i = 0; i<b_row_int; i++) {
+//        for (int j = 0; j<b_col_int;j++) {
+//            printf("%f \t", matrix_b[i*b_col_int+j]);
+//        }
+//        printf("\n");
+//    }
+    
+    
 //    double outcome[9];
 //    Array_initial(outcome, 9);
 //    double matrix_a[6]={1,2,5,6,9,10};
