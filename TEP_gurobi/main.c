@@ -601,18 +601,31 @@ int main()
     }
     
     //For the b part of Ax<=b
+    double load_increase_coef = pow((1+load_increase_factor), 0); // This will be changed due to the years
+    double load_Pt[(int)nload];
+    double load_NB_t[(int)nload];
+    Array_initial(load_NB_t, nload);
+    
+    Array_coef_multiply(load_Pt, load_increase_coef, nload);
+    
+
     
     
     
     char constraint_name[MAXSTR];
     sprintf(constraint_name, "%i_constraint", 1);
     // Add a constraint
-    error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, 0, constraint_name);
+    error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, load_Pt[0], constraint_name);
     //Update model due to lazy model update strategy
     error = GRBupdatemodel(model);
     //if (error) goto QUIT;
     GRBwrite (model, "groubi_obj.lp" );
     GRBwrite (model, "groubi_obj.rlp" );
+    
+    
+    /* Solve */
+    error = GRBoptimize(model);
+    if (error) goto QUIT;
     
 //********This part will deal with code Finish or Crash********
 QUIT:

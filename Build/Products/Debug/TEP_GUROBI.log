@@ -260,3 +260,86 @@ Warning: constraint name "1 constraint" has a space
 
 Gurobi 6.5.2 (mac64) logging started Tue Oct 11 15:24:29 2016
 
+
+Gurobi 6.5.2 (mac64) logging started Tue Oct 11 15:55:29 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Tue Oct 11 15:56:33 2016
+
+Optimize a model with 1 rows, 530 columns and 7 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [3e-02, 4e+00]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+100, 1e+100]
+Presolve removed 1 rows and 530 columns
+Presolve time: 0.01s
+Presolve: All rows and columns removed
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Warning: max bound violation (1.0000e+100) exceeds tolerance
+         (possibly due to large right hand sides)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 07:54:17 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 08:08:17 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 08:08:26 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 08:08:38 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 08:16:49 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 08:21:03 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 08:25:40 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 08:26:52 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 08:28:41 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 08:38:09 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 08:55:46 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 08:59:39 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 09:02:00 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 09:05:33 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 09:17:29 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 09:17:40 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 09:21:50 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 09:22:00 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 09:22:40 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 09:23:43 2016
+

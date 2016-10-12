@@ -61,6 +61,7 @@ int Array_initial_int(int *Array_initialition, double length);
 int eye(double *eye_array, double length);
 int diag(double *diag_array, double length, double *coeff_array);
 int ones(double *ones_array, double length); // This will give you an array with all one
+int matrix_multiply(double *outcome, double *matrix_a, double a_row, double a_col, double *matrix_b, double b_row, double b_col);
 
 /*Kl_C, Kp parameter calculation*/
 int Kl_C_set(double *Kl_C, Cline_struct Cline_info, double nbus, double nCline); // Kl_C

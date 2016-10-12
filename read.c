@@ -434,3 +434,33 @@ int ones(double *ones_array, double length)
     }
     return 0;
 }
+
+int matrix_multiply(double *outcome, double *matrix_a, double a_row, double a_col, double *matrix_b, double b_row, double b_col)
+{
+    Array_initial(outcome, a_row*b_col);
+    int a_row_int = (int)a_row;
+    int a_col_int = (int)a_col;
+    //int b_row_int = (int)b_row;
+    int b_col_int = (int)b_col;
+    
+    for (int i_a = 0; i_a < a_row_int; i_a++) {
+        for (int j_b = 0; j_b < b_col_int; j_b++) {
+            for (int j_a = 0; j_a < a_col_int; j_a++) {
+                outcome[(i_a)*(b_col_int)+j_b] = (outcome[(i_a)*(b_col_int)+j_b])+matrix_a[j_a+ i_a*(a_col_int)] * matrix_b[(j_a)*b_col_int + j_b];;
+                //printf("%f\n", matrix_a[j_a+ i_a*(a_col_int)] * matrix_b[(j_a)*b_col_int + j_b]);
+            }
+        }
+    }
+//    double outcome[9];
+//    Array_initial(outcome, 9);
+//    double matrix_a[6]={1,2,5,6,9,10};
+//    double matrix_b[6]={12,11,10,9,8,7};
+//    matrix_multiply(outcome, matrix_a,3,2,matrix_b,2,3);
+//    for (int i=0; i<3; i++) {
+//        for (int j = 0; j<3; j++) {
+//            printf("%f \t",outcome[(i*3) + j]);
+//        }
+//        printf("\n");
+//    }
+    return 0;
+}
