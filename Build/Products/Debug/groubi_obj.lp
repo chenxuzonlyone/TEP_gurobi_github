@@ -1,15 +1,13 @@
 Minimize
-  0 Fkl_1 + 0 Fkl_2 + 0 Fkl_4 + 0 Fkl_5 + 0 Fkl_6 + 0 Xkl_8 + 0 Xkl_9
-   + 0 Xkl_10 + 0 Xkl_11 + 0 Xkl_12 + 0 Xkl_13 + 0 Xkl_14 + 0 Xkl_15
-   + 0.07884 Gkl_16 + 0.21024 Gkl_17 + 0.15768 Gkl_18 + 0 Rk1_19 + 0 Rk1_20
-   + 0 Rk1_21 + 0 Rk1_22 + 0 Rk1_23 + 0 Rk1_24 + 0 Rk1_25 + 0 Rk1_26
-   + 0 Rk1_27 + 0 Rk1_28 + 0 Rk1_29 + 0 Rk1_30 + 0 Rk2_31 + 0 Rk2_32
-   + 0 Rk2_33 + 0 Rk2_34 + 0 Rk2_35 + 0 Rk2_36 + 0 Gk_ts_38 + 0 Gk_ts_39
-   + 0 Gk_ts_41 + 0 Gk_ts_42 + 0 Gk_ts_43 + 2 I_45 + I_46 + 3.5 I_47
-   + 1.5 I_48 + I_49 + 2 I_50 + 2 I_51 + 3 I_52 + 0 Fkl_53 + 0 Fkl_54
-   + 0 Fkl_55 + 0 Fkl_56 + 0 Fkl_57 + 0 Fkl_58 + 0 Fkl_59 + 0 Fkl_60
-   + 0 Xkl_61 + 0 Xkl_62 + 0 Xkl_63 + 0 Xkl_64 + 0 Xkl_65 + 0 Xkl_66
-   + 0 Xkl_67 + 0 Xkl_68 + 0.0716727272727273 Gkl_69
+  0 Xkl_8 + 0 Xkl_9 + 0 Xkl_10 + 0 Xkl_11 + 0 Xkl_12 + 0 Xkl_13 + 0 Xkl_14
+   + 0 Xkl_15 + 0.07884 Gkl_16 + 0.21024 Gkl_17 + 0.15768 Gkl_18 + 0 Rk1_19
+   + 0 Rk1_20 + 0 Rk1_21 + 0 Rk1_22 + 0 Rk1_23 + 0 Rk1_24 + 0 Rk1_25
+   + 0 Rk1_26 + 0 Rk1_27 + 0 Rk1_28 + 0 Rk1_29 + 0 Rk1_30 + 0 Rk2_31
+   + 0 Rk2_32 + 0 Rk2_33 + 0 Rk2_34 + 0 Rk2_35 + 0 Rk2_36 + 2 I_45 + I_46
+   + 3.5 I_47 + 1.5 I_48 + I_49 + 2 I_50 + 2 I_51 + 3 I_52 + 0 Fkl_53
+   + 0 Fkl_54 + 0 Fkl_55 + 0 Fkl_56 + 0 Fkl_57 + 0 Fkl_58 + 0 Fkl_59
+   + 0 Fkl_60 + 0 Xkl_61 + 0 Xkl_62 + 0 Xkl_63 + 0 Xkl_64 + 0 Xkl_65
+   + 0 Xkl_66 + 0 Xkl_67 + 0 Xkl_68 + 0.0716727272727273 Gkl_69
    + 0.1911272727272728 Gkl_70 + 0.1433454545454546 Gkl_71 + 0 Rk1_72
    + 0 Rk1_73 + 0 Rk1_74 + 0 Rk1_75 + 0 Rk1_76 + 0 Rk1_77 + 0 Rk1_78
    + 0 Rk1_79 + 0 Rk1_80 + 0 Rk1_81 + 0 Rk1_82 + 0 Rk1_83 + 0 Rk2_84
@@ -123,6 +121,14 @@ Minimize
 Subject To
  1_constraint: Fkl_0 - Fkl_3 - Fkl_7 - Gkl_16 - Gk_ts_37 + Gk_ts_40
    + Gk_ts_44 <= -0
+ 2_constraint: - Fkl_0 + Fkl_1 + Gk_ts_37 - Gk_ts_38 <= -40
+ 3_constraint: - Fkl_1 + Fkl_2 + Fkl_3 - Gkl_17 + Gk_ts_38 - Gk_ts_39
+   - Gk_ts_40 <= -60
+ 4_constraint: - Fkl_4 + Fkl_6 - Gkl_18 + Gk_ts_41 - Gk_ts_43 <= -0
+ 5_constraint: - Fkl_5 - Fkl_6 + Fkl_7 + Gk_ts_42 + Gk_ts_43 - Gk_ts_44
+   <= -165
+ 6_constraint: - Fkl_2 + Fkl_4 + Fkl_5 + Gk_ts_39 - Gk_ts_41 - Gk_ts_42
+   <= -0
 Bounds
  Fkl_0 free
  Fkl_1 free

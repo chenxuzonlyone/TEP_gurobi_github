@@ -461,3 +461,71 @@ Thread count was 1 (of 4 available processors)
 
 Optimal solution found (tolerance 1.00e-04)
 Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 14:26:46 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 23:37:03 2016
+
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 23:37:18 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 23:37:32 2016
+
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 23:38:00 2016
+
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 23:39:03 2016
+
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Warning for adding constraints: zero or small (< 1e-13) coefficients, ignored
+Optimize a model with 6 rows, 530 columns and 13 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [3e-02, 4e+00]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [4e+01, 2e+02]
+Found heuristic solution: objective 0
+Presolve removed 6 rows and 530 columns
+Presolve time: 0.01s
+Presolve: All rows and columns removed
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0%
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 23:43:19 2016
+
+
+Gurobi 6.5.2 (mac64) logging started Wed Oct 12 23:49:59 2016
+
+Optimize a model with 6 rows, 530 columns and 35 nonzeros
+Coefficient statistics:
+  Matrix range    [1e+00, 1e+00]
+  Objective range [3e-02, 4e+00]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [4e+01, 2e+02]
+Found heuristic solution: objective 47.0412
+Presolve removed 6 rows and 530 columns
+Presolve time: 0.00s
+Presolve: All rows and columns removed
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.089260000000e+01, best bound 2.089260000000e+01, gap 0.0%

@@ -482,3 +482,14 @@ int Matrix_multiply(double *outcome, double *matrix_a, double a_row, double a_co
 //    }
     return 0;
 }
+
+int Matrix_display(double *Matrix, double row, double col)
+{
+    for (int i =0; i<(int)row; i++) {
+        for (int j = 0; j<(int)col; j++) {
+            printf("%f\t", Matrix[(int)(i*col+col)]);
+        }
+        printf("\n");
+    }    
+    return 0;
+}
