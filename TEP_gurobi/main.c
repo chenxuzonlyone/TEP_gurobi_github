@@ -507,15 +507,15 @@ int main()
     
     //For the A part of Ax<=b
     double non_zero_num = 0;
-    double p_position[BUFFER_MAX];
-    double n_position[BUFFER_MAX];
-    double p_value[BUFFER_MAX];
-    double n_value[BUFFER_MAX];
+    double p_NB_position[BUFFER_MAX];
+    double n_NB_position[BUFFER_MAX];
+    double p_NB_value[BUFFER_MAX];
+    double n_NB_value[BUFFER_MAX];
 
-    Array_initial(p_value, BUFFER_MAX);
-    Array_initial(n_value, BUFFER_MAX);
-    Array_initial(p_position, BUFFER_MAX);
-    Array_initial(n_position, BUFFER_MAX);
+    Array_initial(p_NB_value, BUFFER_MAX);
+    Array_initial(n_NB_value, BUFFER_MAX);
+    Array_initial(p_NB_position, BUFFER_MAX);
+    Array_initial(n_NB_position, BUFFER_MAX);
 
     int p_pt = 0;
     int n_pt = 0;
@@ -525,14 +525,14 @@ int main()
         //printf("KL_c %f\n",Kl_C[(int)(0+i*nCline)]);
         if (Kl_C[(int)(i + NB_bus_t*nCline)] > 0) { //0+(i-1): the 0 can be used as variable
             ++non_zero_num;
-            p_position[p_pt] = position_pt;
-            p_value[p_pt] = Kl_C[(int)(i + NB_bus_t*nCline)];
+            p_NB_position[p_pt] = position_pt;
+            p_NB_value[p_pt] = Kl_C[(int)(i + NB_bus_t*nCline)];
             ++p_pt;
         }
         if (Kl_C[(int)(i + + NB_bus_t*nCline)] < 0) { //0+(i-1): the 0 can be used as variable
             ++non_zero_num;
-            n_position[n_pt] = position_pt;
-            n_value[n_pt] = Kl_C[(int)(i + NB_bus_t*nCline)];
+            n_NB_position[n_pt] = position_pt;
+            n_NB_value[n_pt] = Kl_C[(int)(i + NB_bus_t*nCline)];
             ++n_pt;
         }
         ++position_pt;
@@ -546,14 +546,14 @@ int main()
         
         if (-(Kp[(int)(i + NB_bus_t*nGen)]) > 0) { //0+(i-1): the 0 can be used as variable
             ++non_zero_num;
-            p_position[p_pt] = position_pt;
-            p_value[p_pt] = -(Kp[(int)(i + NB_bus_t*nGen)]);
+            p_NB_position[p_pt] = position_pt;
+            p_NB_value[p_pt] = -(Kp[(int)(i + NB_bus_t*nGen)]);
             ++p_pt;
         }
         if (-(Kp[(int)(i + NB_bus_t*nGen)]) < 0) { //0+(i-1): the 0 can be used as variable
             ++non_zero_num;
-            n_position[n_pt] = position_pt;
-            n_value[n_pt] = -(Kp[(int)(i + NB_bus_t*nGen)]);
+            n_NB_position[n_pt] = position_pt;
+            n_NB_value[n_pt] = -(Kp[(int)(i + NB_bus_t*nGen)]);
             ++n_pt;
         }
         ++position_pt;
@@ -572,14 +572,14 @@ int main()
     for (int i = 0; i < nCline; i++) {
         if (-(Kl_C[(int)(i + NB_bus_t*nCline)]) > 0) { //0+(i-1): the 0 can be used as variable
             ++non_zero_num;
-            p_position[p_pt] = position_pt;
-            p_value[p_pt] = -(Kl_C[(int)(i + NB_bus_t*nCline)]);
+            p_NB_position[p_pt] = position_pt;
+            p_NB_value[p_pt] = -(Kl_C[(int)(i + NB_bus_t*nCline)]);
             ++p_pt;
         }
         if (-(Kl_C[(int)(i + NB_bus_t*nCline)]) < 0) { //0+(i-1): the 0 can be used as variable
             ++non_zero_num;
-            n_position[n_pt] = position_pt;
-            n_value[n_pt] = -(Kl_C[(int)(i + NB_bus_t*nCline)]);
+            n_NB_position[n_pt] = position_pt;
+            n_NB_value[n_pt] = -(Kl_C[(int)(i + NB_bus_t*nCline)]);
             ++n_pt;
         }
         ++position_pt;
@@ -596,14 +596,14 @@ int main()
     int ind_pt = 0;
     
     for (int i = 0; i < (int) p_pt; i++) { //positive coefficient
-        ind_t[ind_pt] = p_position[i] + (int)nAV*NB_year; // The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
+        ind_t[ind_pt] = p_NB_position[i] + (int)nAV*NB_year; // The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
         //printf("%d\n",ind_pt + (int)nAV*NB_year);
-        val_t[ind_pt] = p_value[i];// But the value of cofficients are not change
+        val_t[ind_pt] = p_NB_value[i];// But the value of cofficients are not change
         ++ind_pt;
     }
     for (int i = 0; i < (int) n_pt; i++) { //negative coefficient
-        ind_t[ind_pt] = n_position[i]  + (int)nAV*NB_year;// The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
-        val_t[ind_pt] = n_value[i];// But the value of cofficients are not change
+        ind_t[ind_pt] = n_NB_position[i]  + (int)nAV*NB_year;// The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
+        val_t[ind_pt] = n_NB_value[i];// But the value of cofficients are not change
         ++ind_pt;
     }
 //        printf("ind_pt number: %d\n", ind_pt);
@@ -629,7 +629,7 @@ int main()
     // Add a constraint
         //printf("load_NB_t %f\n", load_NB_t[NB_bus_t]);
         //printf("non_zero %f\n", non_zero_num);
-    error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, -load_NB_t[NB_bus_t], NULL);//load is negative value at this moment
+    //error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, -load_NB_t[NB_bus_t], NULL);//load is negative value at this moment
         
     //Update model due to lazy model update strategy
     error = GRBupdatemodel(model);
@@ -641,9 +641,123 @@ int main()
     
     //****The ending of One year constraints ****
     }// NODAL BALANCE CONSTRAINT: Total planning years constraints are added
-
     // ******** The ending of set Nodal Balance constraints ********
 
+    
+    // ******** The begining of set Status change constraints ********
+    for (int SC_year = 0; SC_year < (int)nplan_year; SC_year++) {
+        
+        //**** One year constraints ****
+        for (int SC_nCline_t = 0; SC_nCline_t < nCline_total; SC_nCline_t++) { // this will add number of bus constraints
+            
+            //For the A part of Ax<=b
+            double non_zero_num = 0;
+            double p_SC_position[BUFFER_MAX];
+            double p_SC_value[BUFFER_MAX];
+            
+            Array_initial(p_SC_value, BUFFER_MAX);
+            Array_initial(p_SC_position, BUFFER_MAX);
+            
+            int p_pt = 0;
+            int position_pt = 0;
+            //Fkl_1
+            position_pt = position_pt + nCline_total;
+            
+            //Xkl
+            double x_SC_C_t[(int)(nCline_total * nCline_total)];
+            double x_SC_P_t[(int)(nCline_total * nCline_total)];
+            Array_initial(x_SC_C_t,nCline_total * nCline_total);
+            Array_initial(x_SC_P_t,nCline_total * nCline_total);
+            eye(x_SC_C_t, nCline_total);
+            eye(x_SC_P_t, nCline_total);
+            
+            for (int i = 0; i < nCline_total; i++) {
+                if ((x_SC_C_t[(int)(i + SC_nCline_t*nCline_total)]) > 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    p_SC_position[p_pt] = position_pt;
+                    p_SC_value[p_pt] = (x_SC_C_t[(int)(i + SC_nCline_t*nCline_total)]);
+                    //printf("%f\n", p_SC_position[p_pt]);
+                    ++p_pt;
+                    if (SC_year > 0) { // Add the PREVIOUS status back into the constraints
+                        ++non_zero_num;
+                        p_SC_position[p_pt] = position_pt - nAV;
+                        p_SC_value[p_pt] = -(x_SC_C_t[(int)(i + SC_nCline_t*nCline_total)]);
+                        //printf("%f\n", p_SC_position[p_pt]);
+                        ++p_pt;
+                    }
+                    
+                }
+                ++position_pt;
+            }
+            
+            //Gk
+            position_pt = position_pt + nGen;
+            
+            //Rk1
+            position_pt = position_pt + nbus;
+            
+            //Rk2
+            position_pt = position_pt + nbus;
+            
+            //theta
+            position_pt = position_pt + nbus;
+            
+            //Gk_ts (it is the reverse of candidate line flow)
+            position_pt = position_pt + nCline_total;
+            
+            //I
+            for (int i = 0; i < nCline_total; i++) {
+                if ((x_SC_C_t[(int)(i + SC_nCline_t*nCline_total)]) > 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    p_SC_position[p_pt] = position_pt;
+                    p_SC_value[p_pt] = -(x_SC_C_t[(int)(i + SC_nCline_t*nCline_total)]);
+                    //printf("%f\n", p_SC_position[p_pt]);
+                    ++p_pt;
+                }
+                ++position_pt;
+            }
+            
+            //Set positive & negative coefficient (ind_t) and positive & negative position(val_t)
+            int ind_t[(int)non_zero_num];
+            double val_t[(int)non_zero_num];
+            Array_initial_int(ind_t, non_zero_num);
+            Array_initial(val_t, non_zero_num);
+            int ind_pt = 0;
+            
+            for (int i = 0; i < (int) p_pt; i++) { //positive coefficient
+                ind_t[ind_pt] = p_SC_position[i] + (int)nAV*SC_year; // The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
+                //printf("%d\n",ind_pt + (int)nAV*NB_year);
+                val_t[ind_pt] = p_SC_value[i];// But the value of cofficients are not change
+                ++ind_pt;
+            }
+//                    printf("ind_pt number: %d\n", ind_pt);
+//                    for (int i = 0; i< ind_pt; i++) {
+//                        printf("%d\n",ind_t[i]);
+//                    }
+            
+            //For the b part of Ax<=b
+            // The elements in b are always "0"
+            
+            //Add constraint
+            //error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, 0.0, NULL);//load is negative value at this moment
+            
+            //Update model due to lazy model update strategy
+            error = GRBupdatemodel(model);
+            //if (error) goto QUIT;
+            GRBwrite (model, "groubi_obj.lp" );
+            GRBwrite (model, "groubi_obj.rlp" );
+        }// STATUS CHANGE CONSTRAINTS: Each year constraints are added
+        //printf("\n");
+        
+        //****The ending of One year constraints ****
+    }// STATUS CHANGE CONSTRAINTS: Total planning years constraints are added
+    // ******** The ending of set STATUS CHANGE constraints ********
+    
+    
+    
+    
+    
+    
     
     /* Solve */
     error = GRBoptimize(model);

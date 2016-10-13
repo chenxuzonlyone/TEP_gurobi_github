@@ -376,7 +376,7 @@ int Kd_set(double *Kd, Load_struct Load_info, double nbus, double nload)
     return 0;
 }
 
-int eye(double *eye_array, double length)
+int eye(double *eye_array, double length) // only need row or col number due to only work on the diaginal element
 {
     for (int i = 0; i < (int)length; ++i)
     {
@@ -487,7 +487,7 @@ int Matrix_display(double *Matrix, double row, double col)
 {
     for (int i =0; i<(int)row; i++) {
         for (int j = 0; j<(int)col; j++) {
-            printf("%f\t", Matrix[(int)(i*col+col)]);
+            printf("%f\t", Matrix[(int)(i*col+j)]);
         }
         printf("\n");
     }    
