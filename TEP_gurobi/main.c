@@ -629,9 +629,12 @@ int main()
     // Add a constraint
         //printf("load_NB_t %f\n", load_NB_t[NB_bus_t]);
         //printf("non_zero %f\n", non_zero_num);
-    //error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, -load_NB_t[NB_bus_t], NULL);//load is negative value at this moment
-        
+    
+    //*****************************
+    //error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_EQUAL, -load_NB_t[NB_bus_t], NULL);//load is negative value at this moment
+    //*****************************
     //Update model due to lazy model update strategy
+        
     error = GRBupdatemodel(model);
     //if (error) goto QUIT;
     GRBwrite (model, "groubi_obj.lp" );
@@ -739,7 +742,9 @@ int main()
             // The elements in b are always "0"
             
             //Add constraint
-            //error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, 0.0, NULL);//load is negative value at this moment
+            //*****************************
+            //error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_EQUAL, 0.0, NULL);//load is negative value at this moment
+            //*****************************
             
             //Update model due to lazy model update strategy
             error = GRBupdatemodel(model);
