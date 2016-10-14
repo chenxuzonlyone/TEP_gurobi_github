@@ -10,6 +10,7 @@
 #define read_h
 #endif /* read_h */
 #define BUFFER_MAX 1024
+extern int inverse_matrix_size_global;//In one header file (shared.h):
 
 //For structure like this way, the memory location is continuous.
 
@@ -58,11 +59,16 @@ int Array_coef_multiply(double *Array_need_multiply, double coeff, double length
 int Array_ascend(double *Array_asscending, double length); //This will make an array with contents from 1 to length+1
 int Array_initial(double *Array_initialition, double length);
 int Array_initial_int(int *Array_initialition, double length);
+
+/*Matrix operation*/
 int eye(double *eye_array, double length);
 int diag(double *diag_array, double length, double *coeff_array);
 int ones(double *ones_array, double length); // This will give you an array with all one
 int Matrix_multiply(double *outcome, double *matrix_a, double a_row, double a_col, double *matrix_b, double b_row, double b_col);
 int Matrix_display(double *Matrix, double row, double col);
+double determinant(double *a, double);
+void cofactor(double *num, double f);
+void transpose(double *num, double *fac, double r);
 
 /*Kl_C, Kp parameter calculation*/
 int Kl_C_set(double *Kl_C, Cline_struct Cline_info, double nbus, double nCline); // Kl_C

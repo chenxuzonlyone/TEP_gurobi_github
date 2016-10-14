@@ -6,7 +6,7 @@
 //  Copyright © 2016 zhangcaihua. All rights reserved.
 //
 
-#include "read.h"
+#include "read.h" // This include a global variable used for Inverse of Matrix
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -493,3 +493,122 @@ int Matrix_display(double *Matrix, double row, double col)
     }    
     return 0;
 }
+
+// This part will calculate the INVERSE OF MATRIX
+//http://www.sanfoundry.com/c-program-find-inverse-matrix/
+//This C program sorts a given array of integer numbers using Bubble Sort technique. The algorithm gets its name from the way smaller elements “bubble” to the top of the list. Because it only uses comparisons to operate on elements, it is a comparison sort. Time Complexity of this algorithm is O(n2).
+/*For calculating Determinant of the Matrix */
+//double determinant(double a[size_s][size_s], double k)
+double determinant(double *a, double k) // Part of inverse matrix
+{
+    double s = 1, det = 0;
+    double b[inverse_matrix_size_global*inverse_matrix_size_global];
+    int i, j, m, n, c;
+    if (k == 1)
+    {
+        return (a[0]);
+    }
+    else
+    {
+        det = 0;
+        for (c = 0; c < k; c++)
+        {
+            m = 0;
+            n = 0;
+            for (i = 0;i < k; i++)
+            {
+                for (j = 0 ;j < k; j++)
+                {
+                    //b[i][j] = 0;
+                    b[(int)(i*inverse_matrix_size_global+j)] = 0;
+                    if (i != 0 && j != c)
+                    {
+                        //b[m][n] = a[i][j];
+                        b[m*inverse_matrix_size_global+n] = a[(int)(i*inverse_matrix_size_global+j)];
+                        //printf("%f\n",b[m*inverse_matrix_size_global+n]);
+                        if (n < (k - 2))
+                            n++;
+                        else
+                        {
+                            n = 0;
+                            m++;
+                        }
+                    }
+                }
+            }
+            det = det + s * (a[c] * determinant(b, k - 1));
+            s = -1 * s;
+        }
+    }
+    
+    return (det);
+}
+
+void cofactor(double *num, double f) // Part of inverse matrix
+{
+    double b[inverse_matrix_size_global*inverse_matrix_size_global], fac[inverse_matrix_size_global*inverse_matrix_size_global];
+    //double b[(int)(f*f)], fac[(int)(f*f)];
+    int p, q, m, n, i, j;
+    for (q = 0;q < f; q++)
+    {
+        for (p = 0;p < f; p++)
+        {
+            m = 0;
+            n = 0;
+            for (i = 0;i < f; i++)
+            {
+                for (j = 0;j < f; j++)
+                {
+                    if (i != q && j != p)
+                    {
+                        b[m*inverse_matrix_size_global+n] = num[(int)(i*inverse_matrix_size_global+j)];
+                        if (n < (f - 2))
+                            n++;
+                        else
+                        {
+                            n = 0;
+                            m++;
+                        }
+                    }
+                }
+            }
+            fac[(int)(q*f+p)] = pow(-1, q + p) * determinant(b, f - 1);
+        }
+    }
+    transpose(num, fac, f);
+}
+
+/*Finding transpose of matrix*/
+void transpose(double *num, double *fac, double r)
+{
+    int i, j;
+    //double b[(int)(r*r)], inverse[(int)(r*r)], d;
+    double b[inverse_matrix_size_global*inverse_matrix_size_global], inverse[inverse_matrix_size_global*inverse_matrix_size_global], d;
+    
+    for (i = 0;i < r; i++)
+    {
+        for (j = 0;j < r; j++)
+        {
+            b[(int)(i*inverse_matrix_size_global+j)] = fac[(int)(j*inverse_matrix_size_global+i)];
+        }
+    }
+    d = determinant(num, r);
+    for (i = 0;i < r; i++)
+    {
+        for (j = 0;j < r; j++)
+        {
+            inverse[(int)(i*inverse_matrix_size_global+j)] = b[(int)(i*inverse_matrix_size_global+j)] / d;
+        }
+    }
+    printf("\n\n\nThe inverse of matrix is : \n");
+    
+    for (i = 0;i < r; i++)
+    {
+        for (j = 0;j < r; j++)
+        {
+            printf("\t%f", inverse[(int)(i*inverse_matrix_size_global+j)]);
+        }
+        printf("\n");
+    }
+}
+// This is the Ending point of calculation the INVERSE OF MATRIX
