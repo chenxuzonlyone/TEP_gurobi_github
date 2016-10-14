@@ -69,6 +69,9 @@ int Matrix_display(double *Matrix, double row, double col);
 double determinant(double *matrix_need_inverse, double sizeof_square_inverse_matrix); // Part of inverse matrix
 void cofactor(double *matrix_need_inverse, double sizeof_square_inverse_matrix, double *desired_inversed_matrix); // Part of inverse matrix
 void transpose(double *matrix_need_inverse, double *fac, double sizeof_square_inverse_matrix, double *desired_inverse_matrix);
+int Matrix_diagonal_inverse(double *diagonal_matrix, double c, double length_total, double *output_matrix); //diagonal matrix inverse
+void Matrix_transpose(double *matrix_need_transpose,double row, double col, double *transposed_matrix);
+
 
 /*Kl_C, Kp parameter calculation*/
 int Kl_C_set(double *Kl_C, Cline_struct Cline_info, double nbus, double nCline); // Kl_C

@@ -613,3 +613,32 @@ void transpose(double *matrix_need_inverse, double *fac, double sizeof_square_in
     }
 }
 // This is the Ending point of calculation the INVERSE OF MATRIX
+
+
+int Matrix_diagonal_inverse(double *diagonal_matrix, double col, double length_total, double *output_matrix)
+{
+    Array_initial(output_matrix, length_total);
+//    Matrix_display(output_matrix,8 ,8);
+    
+    int c = col;
+    
+    for (int i = 0 ; i < c; i++) {
+        output_matrix[(c+1)*i] = 1/diagonal_matrix[(c+1)*i];
+    }
+    return 0;
+}
+
+
+/*Finding transpose of matrix*/
+void Matrix_transpose(double *matrix_need_transpose,double row, double col, double *transposed_matrix)
+{
+    int i, j;
+    
+    for (i = 0;i < (int)row; i++)
+    {
+        for (j = 0;j < (int)col; j++)
+        {
+            transposed_matrix[(int)(j*row+i)] = matrix_need_transpose[(int)(i*col+j)];
+        }
+    }
+}

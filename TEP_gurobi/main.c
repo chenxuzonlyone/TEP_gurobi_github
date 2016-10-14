@@ -896,13 +896,13 @@ int main()
             
             //For the A part of Ax<=b
             double non_zero_num = 0;
-            double p_PF_position[BUFFER_MAX];
-            double p_PF_value[BUFFER_MAX];
+            double nonzero_PF_position[BUFFER_MAX];
+            double nonzero_PF_value[BUFFER_MAX];
             
-            Array_initial(p_PF_value, BUFFER_MAX);
-            Array_initial(p_PF_position, BUFFER_MAX);
+            Array_initial(nonzero_PF_value, BUFFER_MAX);
+            Array_initial(nonzero_PF_position, BUFFER_MAX);
             
-            int p_pt = 0;
+            int nonzero_pt = 0;
             int position_pt = 0;
             
             //Fkl_1
@@ -913,25 +913,25 @@ int main()
             for (int i = 0; i < nCline_total; i++) {
                 if ((flowC_CPF_t[(int)(i + PF_nCline_t*nCline_total)]) > 0) { //0+(i-1): the 0 can be used as variable
                     ++non_zero_num;
-                    p_PF_position[p_pt] = position_pt;
-                    p_PF_value[p_pt] = (flowC_CPF_t[(int)(i + PF_nCline_t*nCline_total)]);
+                    nonzero_PF_position[nonzero_pt] = position_pt;
+                    nonzero_PF_value[nonzero_pt] = (flowC_CPF_t[(int)(i + PF_nCline_t*nCline_total)]);
                     //printf("%f\n", p_SC_position[p_pt]);
-                    ++p_pt;
+                    ++nonzero_pt;
                 }
                 ++position_pt;
             }
             
             //Xkl
             Array_coef_multiply(flowC_CPF_t, M, (nCline_total * nCline_total));
-            Matrix_display(flowC_CPF_t, nCline_total, nCline_total);
+
             
             for (int i = 0; i < nCline_total; i++) {
                 if ((flowC_CPF_t[(int)(i + PF_nCline_t*nCline_total)]) > 0) { //0+(i-1): the 0 can be used as variable
                     ++non_zero_num;
-                    p_PF_position[p_pt] = position_pt;
-                    p_PF_value[p_pt] = (flowC_CPF_t[(int)(i + PF_nCline_t*nCline_total)]);
+                    nonzero_PF_position[nonzero_pt] = position_pt;
+                    nonzero_PF_value[nonzero_pt] = (flowC_CPF_t[(int)(i + PF_nCline_t*nCline_total)]);
                     //printf("%f\n", p_SC_position[p_pt]);
-                    ++p_pt;
+                    ++nonzero_pt;
                 }
                 ++position_pt;
             }
@@ -946,8 +946,28 @@ int main()
             position_pt = position_pt + nbus;
             
             //theta
+            double X_C_inverse[(int)(nCline_total*nCline_total)];// Inverse X_C
+            Array_initial(X_C_inverse, nCline_total*nCline_total);
+            Matrix_diagonal_inverse(X_C, nCline_total, nCline_total*nCline_total, X_C_inverse);
             
-            position_pt = position_pt + nbus;
+            double Kl_C_transpose[(int)(nCline*nbus)]; // Transpose Kl_c
+            Array_initial(Kl_C_transpose, nCline*nbus);
+            Matrix_transpose(Kl_C, nbus, nCline, Kl_C_transpose);
+            
+            double theta_CPF_t[(int)(nCline_total*nbus)]; // define theta variable's coefficients
+            Matrix_multiply(theta_CPF_t, X_C_inverse, nCline_total, nCline_total, Kl_C_transpose, nCline_total, nbus);//theta cal.
+            //Matrix_display(theta_CPF_t, nCline_total, nbus);
+            
+            
+            for (int i = 0; i < nbus; i++) { // search for each column of a certain row
+                if ((theta_CPF_t[(int)(i + PF_nCline_t*nbus)]) != 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    nonzero_PF_position[nonzero_pt] = position_pt;
+                    nonzero_PF_value[nonzero_pt] = -(theta_CPF_t[(int)(i + PF_nCline_t*nbus)]);
+                    ++nonzero_pt;
+                }
+                ++position_pt;
+            }
             
             //Gk_ts (it is the reverse of candidate line flow)
             position_pt = position_pt + nCline_total;
@@ -956,30 +976,41 @@ int main()
             position_pt = position_pt + nCline_total;
             
             
-            //Set positive & negative coefficient (ind_t) and positive & negative position(val_t)
-            int ind_t[(int)non_zero_num];
-            double val_t[(int)non_zero_num];
-            Array_initial_int(ind_t, non_zero_num);
-            Array_initial(val_t, non_zero_num);
-            int ind_pt = 0;
+            //Set positive coefficient (ind_t) and positive position(val_t)
+            int p_ind_t[(int)non_zero_num];
+            double p_val_t[(int)non_zero_num];
+            Array_initial_int(p_ind_t, non_zero_num);
+            Array_initial(p_val_t, non_zero_num);
+            int p_ind_pt = 0;
             
-            for (int i = 0; i < (int) p_pt; i++) { //positive coefficient
-                ind_t[ind_pt] = p_PF_position[i] + (int)nAV*PF_year; // The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
-                //printf("%d\n",ind_pt + (int)nAV*NB_year);
-                val_t[ind_pt] = p_PF_value[i];// But the value of cofficients are not change
-                ++ind_pt;
+            for (int i = 0; i < (int) nonzero_pt; i++) { //positive coefficient
+                p_ind_t[p_ind_pt] = nonzero_PF_position[i] + (int)nAV*PF_year; // The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
+                p_val_t[p_ind_pt] = nonzero_PF_value[i];// But the value of cofficients are not change
+                ++p_ind_pt;
             }
-            //                    printf("ind_pt number: %d\n", ind_pt);
-            //                    for (int i = 0; i< ind_pt; i++) {
-            //                        printf("%d\n",ind_t[i]);
-            //                    }
+            
+            //Set negative coefficient (ind_t) and negative position(val_t)
+            int n_ind_t[(int)non_zero_num];
+            double n_val_t[(int)non_zero_num];
+            Array_initial_int(n_ind_t, non_zero_num);
+            Array_initial(n_val_t, non_zero_num);
+            int n_ind_pt = 0;
+            
+            for (int i = 0; i < (int) nonzero_pt; i++) { //positive coefficient
+                n_ind_t[n_ind_pt] = nonzero_PF_position[i] + (int)nAV*PF_year; // The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
+                n_val_t[n_ind_pt] = -nonzero_PF_value[i];// But the value of cofficients are not change
+                ++n_ind_pt;
+            }
+
+
             
             //For the b part of Ax<=b
-            // The elements in b are always "0"
+            // The elements in b are always "M"
             
             //Add constraint
             //*****************************
-            //error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, 0.0, NULL);//load is negative value at this moment
+            //error = GRBaddconstr(model, (int)non_zero_num, p_ind_t, p_val_t, GRB_LESS_EQUAL, M, NULL);//load is negative value at this moment
+            //error = GRBaddconstr(model, (int)non_zero_num, n_ind_t, n_val_t, GRB_LESS_EQUAL, M, NULL);//load is negative value at this moment
             //*****************************
             
             //Update model due to lazy model update strategy
@@ -989,7 +1020,7 @@ int main()
             GRBwrite (model, "groubi_obj.rlp" );
         }// STATUS CHANGE CONSTRAINTS: Each year constraints are added
         //printf("\n");
-        
+        //printf("\n");
         //****The ending of One year constraints ****
     }// POWER FLOW CONSTRAINTS: Total planning years constraints are added
     // ******** The ending of set POWER FLOW constraints ********
