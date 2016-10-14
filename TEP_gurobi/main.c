@@ -1,3 +1,202 @@
+//#include<stdio.h>
+//#include<math.h>
+//#include "read.h"
+//#define MATRIX_MAX 1024
+//int size_s ;
+////http://www.sanfoundry.com/c-program-find-inverse-matrix/
+////This C program sorts a given array of integer numbers using Bubble Sort technique. The algorithm gets its name from the way smaller elements “bubble” to the top of the list. Because it only uses comparisons to operate on elements, it is a comparison sort. Time Complexity of this algorithm is O(n2).
+//double determinant(double *a, double);
+//void cofactor(double *num, double f);
+//void transpose(double *num, double *fac, double r);
+//int main()
+//{
+//    //double a[9]={2,3,5,2,1,5,8,3,9};
+//    double a[16]={9,3,4,6,4,2,3,5,9,8,6,5,3,4,6,9};
+//    double k, d;
+//    
+//    //k = 3.0;
+//    size_s = 4;
+//    k = 4.0;
+//    
+//    d = determinant(a, k);
+//    if (d == 0)
+//        printf("\nInverse of Entered Matrix is not possible\n");
+//    else
+//        cofactor(a, k);
+//}
+//
+///*For calculating Determinant of the Matrix */
+////double determinant(double a[size_s][size_s], double k)
+//double determinant(double *a, double k)
+//{
+//    double s = 1, det = 0;
+//    double b[size_s*size_s];
+//    int i, j, m, n, c;
+//    if (k == 1)
+//    {
+//        return (a[0]);
+//    }
+//    else
+//    {
+//        det = 0;
+//        for (c = 0; c < k; c++)
+//        {
+//            m = 0;
+//            n = 0;
+//            for (i = 0;i < k; i++)
+//            {
+//                for (j = 0 ;j < k; j++)
+//                {
+//                    //b[i][j] = 0;
+//                    b[(int)(i*size_s+j)] = 0;
+//                    if (i != 0 && j != c)
+//                    {
+//                        //b[m][n] = a[i][j];
+//                        b[m*size_s+n] = a[(int)(i*size_s+j)];
+//                        printf("%f\n",b[m*size_s+n]);
+//                        if (n < (k - 2))
+//                            n++;
+//                        else
+//                        {
+//                            n = 0;
+//                            m++;
+//                        }
+//                    }
+//                }
+//            }
+//            det = det + s * (a[c] * determinant(b, k - 1));
+//            s = -1 * s;
+//        }
+//    }
+//    
+//    return (det);
+//}
+//
+//void cofactor(double *num, double f)
+//{
+//    double b[size_s*size_s], fac[size_s*size_s];
+//    //double b[(int)(f*f)], fac[(int)(f*f)];
+//    int p, q, m, n, i, j;
+//    for (q = 0;q < f; q++)
+//    {
+//        for (p = 0;p < f; p++)
+//        {
+//            m = 0;
+//            n = 0;
+//            for (i = 0;i < f; i++)
+//            {
+//                for (j = 0;j < f; j++)
+//                {
+//                    if (i != q && j != p)
+//                    {
+//                        b[m*size_s+n] = num[(int)(i*size_s+j)];
+//                        if (n < (f - 2))
+//                            n++;
+//                        else
+//                        {
+//                            n = 0;
+//                            m++;
+//                        }
+//                    }
+//                }
+//            }
+//            fac[(int)(q*f+p)] = pow(-1, q + p) * determinant(b, f - 1);
+//        }
+//    }
+//    transpose(num, fac, f);
+//}
+///*Finding transpose of matrix*/
+//void transpose(double *num, double *fac, double r)
+//{
+//    int i, j;
+//    //double b[(int)(r*r)], inverse[(int)(r*r)], d;
+//    double b[size_s*size_s], inverse[size_s*size_s], d;
+//    
+//    for (i = 0;i < r; i++)
+//    {
+//        for (j = 0;j < r; j++)
+//        {
+//            b[(int)(i*size_s+j)] = fac[(int)(j*size_s+i)];
+//        }
+//    }
+//    d = determinant(num, r);
+//    for (i = 0;i < r; i++)
+//    {
+//        for (j = 0;j < r; j++)
+//        {
+//            inverse[(int)(i*size_s+j)] = b[(int)(i*size_s+j)] / d;
+//        }
+//    }
+//    printf("\n\n\nThe inverse of matrix is : \n");
+//    
+//    for (i = 0;i < r; i++)
+//    {
+//        for (j = 0;j < r; j++)
+//        {
+//            printf("\t%f", inverse[(int)(i*size_s+j)]);
+//        }
+//        printf("\n");
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -37,16 +236,16 @@ int main()
     
     Cline_data_read(f_cline_stream, row_cline, col_cline, &Cline_info);//read data from file
     
-//    for (int i = 0; i< row_cline; i++)
-//    {
-//        
-//        printf("%f\t", Cline_info.line_Cfrom[i]);
-//        printf("%f\t", Cline_info.line_Cto[i]);
-//        printf("%f\t", Cline_info.line_Ccost[i]);
-//        printf("%f\t", Cline_info.line_Creactance[i]);
-//        printf("%f\t", Cline_info.line_Climit[i]);
-//        printf("\n");
-//    }
+    //    for (int i = 0; i< row_cline; i++)
+    //    {
+    //
+    //        printf("%f\t", Cline_info.line_Cfrom[i]);
+    //        printf("%f\t", Cline_info.line_Cto[i]);
+    //        printf("%f\t", Cline_info.line_Ccost[i]);
+    //        printf("%f\t", Cline_info.line_Creactance[i]);
+    //        printf("%f\t", Cline_info.line_Climit[i]);
+    //        printf("\n");
+    //    }
     //********Cline info ending********
     
     
@@ -70,16 +269,16 @@ int main()
     
     Gen_data_read(f_gen_stream, row_gen, col_gen, &Gen_info);//read data from file
     
-//    for (int i = 0; i< row_gen; i++)
-//    {
-//        
-//        printf("%f\t", Gen_info.gen_busnum[i]);
-//        printf("%f\t", Gen_info.gen_min[i]);
-//        printf("%f\t", Gen_info.gen_max[i]);
-//        printf("%f\t", Gen_info.gen_fixed[i]);
-//        printf("%f\t", Gen_info.gen_cost[i]);
-//        printf("\n");
-//    }
+    //    for (int i = 0; i< row_gen; i++)
+    //    {
+    //
+    //        printf("%f\t", Gen_info.gen_busnum[i]);
+    //        printf("%f\t", Gen_info.gen_min[i]);
+    //        printf("%f\t", Gen_info.gen_max[i]);
+    //        printf("%f\t", Gen_info.gen_fixed[i]);
+    //        printf("%f\t", Gen_info.gen_cost[i]);
+    //        printf("\n");
+    //    }
     //********gen info ending********
     
     //********This part related to load info********
@@ -99,13 +298,13 @@ int main()
     
     Load_data_read(f_load_stream, row_load, col_load, &Load_info);//read data from file
     
-//    for (int i = 0; i< row_load; i++)
-//    {
-//        
-//        printf("%f\t", Load_info.load_busnum[i]);
-//        printf("%f\t", Load_info.load_fixed[i]);
-//        printf("\n");
-//    }
+    //    for (int i = 0; i< row_load; i++)
+    //    {
+    //
+    //        printf("%f\t", Load_info.load_busnum[i]);
+    //        printf("%f\t", Load_info.load_fixed[i]);
+    //        printf("\n");
+    //    }
     //********load info ending********
     
     //********This part related to number setting********
@@ -152,8 +351,8 @@ int main()
     
     double load_increase_factor=0.01; // (control)
     double discount_rate=0.1;       // discount rate
-    double M=7*10^4; //(control)
-    double M_kl=7*10^4;    //candidate branch flow different M meanning same value
+    double M=7*pow(10, 4); //(control)
+    double M_kl=7*pow(10, 4);    //candidate branch flow different M meanning same value
     double loss_penalty=10^4;
     double ref_position=1; //reference bus position
     double duration_time=8760; //year duration time (hour) 365*24*60
@@ -174,7 +373,7 @@ int main()
     Kl_C_set(Kl_C, Cline_info, nbus, nCline);
     
     
-   
+    
     // bus generation incidence matrix
     double Kp[(int)(nbus*nGen)];
     Array_initial(Kp, nbus*nGen); //initialize array
@@ -190,13 +389,13 @@ int main()
     Array_initial(Kd, nbus*nload); //initialize array
     Kd_set(Kd, Load_info, nbus, nload);
     
-//    for (int i = 0; i<6; i++) {
-//        for (int j = 0; j<6;j++) {
-//            printf("%f \t", Kd[i*6+j]);
-//        }
-//        printf("\n");
-//    }
-
+    //    for (int i = 0; i<6; i++) {
+    //        for (int j = 0; j<6;j++) {
+    //            printf("%f \t", Kd[i*6+j]);
+    //        }
+    //        printf("\n");
+    //    }
+    
     // bus slack variable incidence matrix
     double Kr1[(int)(nbus*nbus)];
     Array_initial(Kr1, nbus*nbus);
@@ -241,9 +440,9 @@ int main()
         int exist_line = (int)candidate_line_pool[i];
         line_initial[exist_line-1]=0; // Due to the array strats from 0 to (Max-1)
     }
-//    for (int i =0 ; i < nCline_total; i++) {
-//        printf("line_init_status %f\n",line_initial[i]);
-//    }
+    //    for (int i =0 ; i < nCline_total; i++) {
+    //        printf("line_init_status %f\n",line_initial[i]);
+    //    }
     
     
     //line_initial=ones(nCline_total,1);% In fact, this constraint is used to set the limit of binary variable
@@ -293,7 +492,7 @@ int main()
         
         for (int i = 0; i<nbus; i++) {//theta_F_t
             f[var_pt] =  0;
-        
+            
             if (i == (int)(ref_position-1)) { //select the reference bus
                 lb[var_pt] = 0; //lower bound
                 ub[var_pt] = 0; //upper bound
@@ -317,14 +516,14 @@ int main()
             var_pt=var_pt+1;
         }
     }
-
+    
     //testing
     //    for(int i =0;i<f_pt;i++){
     //        printf("i %d \t",i+1);
     //        printf("%f \n", f[i]);
     //    }
     
-
+    
     //****This part deal with Gurobi setting****
     GRBenv *env = NULL;
     GRBmodel *model = NULL;
@@ -483,7 +682,7 @@ int main()
             i_total++;
         }
         //printf("i_total %d \n", i_total);
-
+        
     }
     
     //Update model due to lazy model update strategy
@@ -492,9 +691,9 @@ int main()
     GRBwrite (model, "groubi_obj.lp" );
     GRBwrite (model, "groubi_obj.rlp" );
     
-//    for (int i=0; i<nVariable_total; i++) {
-//         error = GRBgetdblattr(model, "", &objcon);
-//    }
+    //    for (int i=0; i<nVariable_total; i++) {
+    //         error = GRBgetdblattr(model, "", &objcon);
+    //    }
     
     
     // ******** The end of set the TYPE, COEFFICIENT, and UPPER,LOWER BOUND of all variable ********
@@ -502,150 +701,150 @@ int main()
     // ******** The begining of set Nodal Balance constraints ********
     for (int NB_year = 0; NB_year < (int)nplan_year; NB_year++) {
         
-    //**** One year constraints ****
-    for (int NB_bus_t = 0; NB_bus_t < nbus; NB_bus_t++) { // this will add number of bus constraints
-    
-    //For the A part of Ax<=b
-    double non_zero_num = 0;
-    double p_NB_position[BUFFER_MAX];
-    double n_NB_position[BUFFER_MAX];
-    double p_NB_value[BUFFER_MAX];
-    double n_NB_value[BUFFER_MAX];
-
-    Array_initial(p_NB_value, BUFFER_MAX);
-    Array_initial(n_NB_value, BUFFER_MAX);
-    Array_initial(p_NB_position, BUFFER_MAX);
-    Array_initial(n_NB_position, BUFFER_MAX);
-
-    int p_pt = 0;
-    int n_pt = 0;
-    int position_pt = 0;
-    //Fkl_1
-    for (int i = 0; i < nCline; i++) {
-        //printf("KL_c %f\n",Kl_C[(int)(0+i*nCline)]);
-        if (Kl_C[(int)(i + NB_bus_t*nCline)] > 0) { //0+(i-1): the 0 can be used as variable
-            ++non_zero_num;
-            p_NB_position[p_pt] = position_pt;
-            p_NB_value[p_pt] = Kl_C[(int)(i + NB_bus_t*nCline)];
-            ++p_pt;
-        }
-        if (Kl_C[(int)(i + + NB_bus_t*nCline)] < 0) { //0+(i-1): the 0 can be used as variable
-            ++non_zero_num;
-            n_NB_position[n_pt] = position_pt;
-            n_NB_value[n_pt] = Kl_C[(int)(i + NB_bus_t*nCline)];
-            ++n_pt;
-        }
-        ++position_pt;
-    }
-    
-    //Xkl
-    position_pt = position_pt + nCline;
-    
-    //Gk
-    for (int i = 0; i < nGen; i++) {
-        
-        if (-(Kp[(int)(i + NB_bus_t*nGen)]) > 0) { //0+(i-1): the 0 can be used as variable
-            ++non_zero_num;
-            p_NB_position[p_pt] = position_pt;
-            p_NB_value[p_pt] = -(Kp[(int)(i + NB_bus_t*nGen)]);
-            ++p_pt;
-        }
-        if (-(Kp[(int)(i + NB_bus_t*nGen)]) < 0) { //0+(i-1): the 0 can be used as variable
-            ++non_zero_num;
-            n_NB_position[n_pt] = position_pt;
-            n_NB_value[n_pt] = -(Kp[(int)(i + NB_bus_t*nGen)]);
-            ++n_pt;
-        }
-        ++position_pt;
-    }
-    
-    //Rk1
-    position_pt = position_pt + nbus;
-    
-    //Rk2
-    position_pt = position_pt + nbus;
-    
-    //theta
-    position_pt = position_pt + nbus;
-    
-    //Gk_ts (it is the reverse of candidate line flow)
-    for (int i = 0; i < nCline; i++) {
-        if (-(Kl_C[(int)(i + NB_bus_t*nCline)]) > 0) { //0+(i-1): the 0 can be used as variable
-            ++non_zero_num;
-            p_NB_position[p_pt] = position_pt;
-            p_NB_value[p_pt] = -(Kl_C[(int)(i + NB_bus_t*nCline)]);
-            ++p_pt;
-        }
-        if (-(Kl_C[(int)(i + NB_bus_t*nCline)]) < 0) { //0+(i-1): the 0 can be used as variable
-            ++non_zero_num;
-            n_NB_position[n_pt] = position_pt;
-            n_NB_value[n_pt] = -(Kl_C[(int)(i + NB_bus_t*nCline)]);
-            ++n_pt;
-        }
-        ++position_pt;
-    }
-    
-    //I
-    position_pt = position_pt + nCline_total;
-    
-    //Set positive & negative coefficient (ind_t) and positive & negative position(val_t)
-    int ind_t[(int)non_zero_num];
-    double val_t[(int)non_zero_num];
-    Array_initial_int(ind_t, non_zero_num);
-    Array_initial(val_t, non_zero_num);
-    int ind_pt = 0;
-    
-    for (int i = 0; i < (int) p_pt; i++) { //positive coefficient
-        ind_t[ind_pt] = p_NB_position[i] + (int)nAV*NB_year; // The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
-        //printf("%d\n",ind_pt + (int)nAV*NB_year);
-        val_t[ind_pt] = p_NB_value[i];// But the value of cofficients are not change
-        ++ind_pt;
-    }
-    for (int i = 0; i < (int) n_pt; i++) { //negative coefficient
-        ind_t[ind_pt] = n_NB_position[i]  + (int)nAV*NB_year;// The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
-        val_t[ind_pt] = n_NB_value[i];// But the value of cofficients are not change
-        ++ind_pt;
-    }
-//        printf("ind_pt number: %d\n", ind_pt);
-//        for (int i = 0; i< ind_pt; i++) {
-//            printf("%d\n",ind_t[i]);
-//        }
-        
-    //For the b part of Ax<=b
-    double load_increase_coef = pow((1+load_increase_factor), NB_year); //Loads are changing according to the years change.
-        //printf("load_increase_coef %f \n",load_increase_coef);
-    double load_Pt[(int)nload];
-    double load_NB_t[(int)nbus];
-    Array_initial(load_Pt, nload);
-    Array_initial(load_NB_t, nload);
-    
-    Matrix_multiply(load_Pt, load_P, nload, 1.0, &load_increase_coef, 1.0, 1.0);//load_Pt=load_P*load_increase_coef
-    
-    Matrix_multiply(load_NB_t, Kd, nbus, nload, load_Pt, nload, 1.0);//load_NB_t=Kd*load_Pt
-    
-    
-    //char constraint_name[MAXSTR];
-    //sprintf(constraint_name, "%i_constraint", NB_bus_t+1);
-    // Add a constraint
-        //printf("load_NB_t %f\n", load_NB_t[NB_bus_t]);
-        //printf("non_zero %f\n", non_zero_num);
-    
-    //*****************************
-    //error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_EQUAL, -load_NB_t[NB_bus_t], NULL);//load is negative value at this moment
-    //*****************************
-    //Update model due to lazy model update strategy
-        
-    error = GRBupdatemodel(model);
-    //if (error) goto QUIT;
-    GRBwrite (model, "groubi_obj.lp" );
-    GRBwrite (model, "groubi_obj.rlp" );
-    }// NODAL BALANCE CONSTRAINT: Each year constraints are added
+        //**** One year constraints ****
+        for (int NB_bus_t = 0; NB_bus_t < nbus; NB_bus_t++) { // this will add number of bus constraints
+            
+            //For the A part of Ax<=b
+            double non_zero_num = 0;
+            double p_NB_position[BUFFER_MAX];
+            double n_NB_position[BUFFER_MAX];
+            double p_NB_value[BUFFER_MAX];
+            double n_NB_value[BUFFER_MAX];
+            
+            Array_initial(p_NB_value, BUFFER_MAX);
+            Array_initial(n_NB_value, BUFFER_MAX);
+            Array_initial(p_NB_position, BUFFER_MAX);
+            Array_initial(n_NB_position, BUFFER_MAX);
+            
+            int p_pt = 0;
+            int n_pt = 0;
+            int position_pt = 0;
+            //Fkl_1
+            for (int i = 0; i < nCline; i++) {
+                //printf("KL_c %f\n",Kl_C[(int)(0+i*nCline)]);
+                if (Kl_C[(int)(i + NB_bus_t*nCline)] > 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    p_NB_position[p_pt] = position_pt;
+                    p_NB_value[p_pt] = Kl_C[(int)(i + NB_bus_t*nCline)];
+                    ++p_pt;
+                }
+                if (Kl_C[(int)(i + + NB_bus_t*nCline)] < 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    n_NB_position[n_pt] = position_pt;
+                    n_NB_value[n_pt] = Kl_C[(int)(i + NB_bus_t*nCline)];
+                    ++n_pt;
+                }
+                ++position_pt;
+            }
+            
+            //Xkl
+            position_pt = position_pt + nCline;
+            
+            //Gk
+            for (int i = 0; i < nGen; i++) {
+                
+                if (-(Kp[(int)(i + NB_bus_t*nGen)]) > 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    p_NB_position[p_pt] = position_pt;
+                    p_NB_value[p_pt] = -(Kp[(int)(i + NB_bus_t*nGen)]);
+                    ++p_pt;
+                }
+                if (-(Kp[(int)(i + NB_bus_t*nGen)]) < 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    n_NB_position[n_pt] = position_pt;
+                    n_NB_value[n_pt] = -(Kp[(int)(i + NB_bus_t*nGen)]);
+                    ++n_pt;
+                }
+                ++position_pt;
+            }
+            
+            //Rk1
+            position_pt = position_pt + nbus;
+            
+            //Rk2
+            position_pt = position_pt + nbus;
+            
+            //theta
+            position_pt = position_pt + nbus;
+            
+            //Gk_ts (it is the reverse of candidate line flow)
+            for (int i = 0; i < nCline; i++) {
+                if (-(Kl_C[(int)(i + NB_bus_t*nCline)]) > 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    p_NB_position[p_pt] = position_pt;
+                    p_NB_value[p_pt] = -(Kl_C[(int)(i + NB_bus_t*nCline)]);
+                    ++p_pt;
+                }
+                if (-(Kl_C[(int)(i + NB_bus_t*nCline)]) < 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    n_NB_position[n_pt] = position_pt;
+                    n_NB_value[n_pt] = -(Kl_C[(int)(i + NB_bus_t*nCline)]);
+                    ++n_pt;
+                }
+                ++position_pt;
+            }
+            
+            //I
+            position_pt = position_pt + nCline_total;
+            
+            //Set positive & negative coefficient (ind_t) and positive & negative position(val_t)
+            int ind_t[(int)non_zero_num];
+            double val_t[(int)non_zero_num];
+            Array_initial_int(ind_t, non_zero_num);
+            Array_initial(val_t, non_zero_num);
+            int ind_pt = 0;
+            
+            for (int i = 0; i < (int) p_pt; i++) { //positive coefficient
+                ind_t[ind_pt] = p_NB_position[i] + (int)nAV*NB_year; // The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
+                //printf("%d\n",ind_pt + (int)nAV*NB_year);
+                val_t[ind_pt] = p_NB_value[i];// But the value of cofficients are not change
+                ++ind_pt;
+            }
+            for (int i = 0; i < (int) n_pt; i++) { //negative coefficient
+                ind_t[ind_pt] = n_NB_position[i]  + (int)nAV*NB_year;// The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
+                val_t[ind_pt] = n_NB_value[i];// But the value of cofficients are not change
+                ++ind_pt;
+            }
+            //        printf("ind_pt number: %d\n", ind_pt);
+            //        for (int i = 0; i< ind_pt; i++) {
+            //            printf("%d\n",ind_t[i]);
+            //        }
+            
+            //For the b part of Ax<=b
+            double load_increase_coef = pow((1+load_increase_factor), NB_year); //Loads are changing according to the years change.
+            //printf("load_increase_coef %f \n",load_increase_coef);
+            double load_Pt[(int)nload];
+            double load_NB_t[(int)nbus];
+            Array_initial(load_Pt, nload);
+            Array_initial(load_NB_t, nload);
+            
+            Matrix_multiply(load_Pt, load_P, nload, 1.0, &load_increase_coef, 1.0, 1.0);//load_Pt=load_P*load_increase_coef
+            
+            Matrix_multiply(load_NB_t, Kd, nbus, nload, load_Pt, nload, 1.0);//load_NB_t=Kd*load_Pt
+            
+            
+            //char constraint_name[MAXSTR];
+            //sprintf(constraint_name, "%i_constraint", NB_bus_t+1);
+            // Add a constraint
+            //printf("load_NB_t %f\n", load_NB_t[NB_bus_t]);
+            //printf("non_zero %f\n", non_zero_num);
+            
+            //*****************************
+            //error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_EQUAL, -load_NB_t[NB_bus_t], NULL);//load is negative value at this moment
+            //*****************************
+            //Update model due to lazy model update strategy
+            
+            error = GRBupdatemodel(model);
+            //if (error) goto QUIT;
+            GRBwrite (model, "groubi_obj.lp" );
+            GRBwrite (model, "groubi_obj.rlp" );
+        }// NODAL BALANCE CONSTRAINT: Each year constraints are added
         //printf("\n");
-    
-    //****The ending of One year constraints ****
+        
+        //****The ending of One year constraints ****
     }// NODAL BALANCE CONSTRAINT: Total planning years constraints are added
     // ******** The ending of set Nodal Balance constraints ********
-
+    
     
     // ******** The begining of set Status change constraints ********
     for (int SC_year = 0; SC_year < (int)nplan_year; SC_year++) {
@@ -733,10 +932,10 @@ int main()
                 val_t[ind_pt] = p_SC_value[i];// But the value of cofficients are not change
                 ++ind_pt;
             }
-//                    printf("ind_pt number: %d\n", ind_pt);
-//                    for (int i = 0; i< ind_pt; i++) {
-//                        printf("%d\n",ind_t[i]);
-//                    }
+            //                    printf("ind_pt number: %d\n", ind_pt);
+            //                    for (int i = 0; i< ind_pt; i++) {
+            //                        printf("%d\n",ind_t[i]);
+            //                    }
             
             //For the b part of Ax<=b
             // The elements in b are always "0"
@@ -778,24 +977,24 @@ int main()
             position_pt = position_pt + nCline_total;
             
             //Xkl
-            double x_SC_C_t[(int)(nCline_total * nCline_total)];
-            double x_SC_P_t[(int)(nCline_total * nCline_total)];
-            Array_initial(x_SC_C_t,nCline_total * nCline_total);
-            Array_initial(x_SC_P_t,nCline_total * nCline_total);
-            eye(x_SC_C_t, nCline_total);
-            eye(x_SC_P_t, nCline_total);
+            double x_SM_C_t[(int)(nCline_total * nCline_total)];
+            double x_SM_P_t[(int)(nCline_total * nCline_total)];
+            Array_initial(x_SM_C_t,nCline_total * nCline_total);
+            Array_initial(x_SM_P_t,nCline_total * nCline_total);
+            eye(x_SM_C_t, nCline_total);
+            eye(x_SM_P_t, nCline_total);
             
             for (int i = 0; i < nCline_total; i++) {
-                if ((x_SC_C_t[(int)(i + SM_nCline_t*nCline_total)]) > 0) { //0+(i-1): the 0 can be used as variable
+                if ((x_SM_C_t[(int)(i + SM_nCline_t*nCline_total)]) > 0) { //0+(i-1): the 0 can be used as variable
                     ++non_zero_num;
                     p_SM_position[p_pt] = position_pt;
-                    p_SM_value[p_pt] = -(x_SC_C_t[(int)(i + SM_nCline_t*nCline_total)]);
+                    p_SM_value[p_pt] = -(x_SM_C_t[(int)(i + SM_nCline_t*nCline_total)]);
                     //printf("%f\n", p_SC_position[p_pt]);
                     ++p_pt;
                     if (SM_year > 0) { // Add the PREVIOUS status back into the constraints
                         ++non_zero_num;
                         p_SM_position[p_pt] = position_pt - nAV;
-                        p_SM_value[p_pt] =  (x_SC_C_t[(int)(i + SM_nCline_t*nCline_total)]);
+                        p_SM_value[p_pt] =  (x_SM_C_t[(int)(i + SM_nCline_t*nCline_total)]);
                         //printf("%f\n", p_SC_position[p_pt]);
                         ++p_pt;
                     }
@@ -821,7 +1020,7 @@ int main()
             
             //I
             position_pt = position_pt + nCline_total;
-
+            
             
             //Set positive & negative coefficient (ind_t) and positive & negative position(val_t)
             int ind_t[(int)non_zero_num];
@@ -846,7 +1045,7 @@ int main()
             
             //Add constraint
             //*****************************
-            error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, 0.0, NULL);//load is negative value at this moment
+            //error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, 0.0, NULL);//load is negative value at this moment
             //*****************************
             
             //Update model due to lazy model update strategy
@@ -863,13 +1062,118 @@ int main()
     
     
     
+    // ******** The begining of set Installation status maintain constraints ********
+    for (int PF_year = 0; PF_year < (int)nplan_year; PF_year++) {
+        
+        //**** One year constraints ****
+        for (int PF_nCline_t = 0; PF_nCline_t < nCline_total; PF_nCline_t++) { // this will add number of bus constraints
+            
+            //For the A part of Ax<=b
+            double non_zero_num = 0;
+            double p_PF_position[BUFFER_MAX];
+            double p_PF_value[BUFFER_MAX];
+            
+            Array_initial(p_PF_value, BUFFER_MAX);
+            Array_initial(p_PF_position, BUFFER_MAX);
+            
+            int p_pt = 0;
+            int position_pt = 0;
+            
+            //Fkl_1
+            double flowC_CPF_t[(int)(nCline_total * nCline_total)];
+            Array_initial(flowC_CPF_t,nCline_total * nCline_total);
+            eye(flowC_CPF_t, nCline_total);
+            
+            for (int i = 0; i < nCline_total; i++) {
+                if ((flowC_CPF_t[(int)(i + PF_nCline_t*nCline_total)]) > 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    p_PF_position[p_pt] = position_pt;
+                    p_PF_value[p_pt] = (flowC_CPF_t[(int)(i + PF_nCline_t*nCline_total)]);
+                    //printf("%f\n", p_SC_position[p_pt]);
+                    ++p_pt;
+                }
+                ++position_pt;
+            }
+            
+            //Xkl
+            Array_coef_multiply(flowC_CPF_t, M, (nCline_total * nCline_total));
+            Matrix_display(flowC_CPF_t, nCline_total, nCline_total);
+            
+            for (int i = 0; i < nCline_total; i++) {
+                if ((flowC_CPF_t[(int)(i + PF_nCline_t*nCline_total)]) > 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    p_PF_position[p_pt] = position_pt;
+                    p_PF_value[p_pt] = (flowC_CPF_t[(int)(i + PF_nCline_t*nCline_total)]);
+                    //printf("%f\n", p_SC_position[p_pt]);
+                    ++p_pt;
+                }
+                ++position_pt;
+            }
+            
+            //Gk
+            position_pt = position_pt + nGen;
+            
+            //Rk1
+            position_pt = position_pt + nbus;
+            
+            //Rk2
+            position_pt = position_pt + nbus;
+            
+            //theta
+            
+            position_pt = position_pt + nbus;
+            
+            //Gk_ts (it is the reverse of candidate line flow)
+            position_pt = position_pt + nCline_total;
+            
+            //I
+            position_pt = position_pt + nCline_total;
+            
+            
+            //Set positive & negative coefficient (ind_t) and positive & negative position(val_t)
+            int ind_t[(int)non_zero_num];
+            double val_t[(int)non_zero_num];
+            Array_initial_int(ind_t, non_zero_num);
+            Array_initial(val_t, non_zero_num);
+            int ind_pt = 0;
+            
+            for (int i = 0; i < (int) p_pt; i++) { //positive coefficient
+                ind_t[ind_pt] = p_PF_position[i] + (int)nAV*PF_year; // The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
+                //printf("%d\n",ind_pt + (int)nAV*NB_year);
+                val_t[ind_pt] = p_PF_value[i];// But the value of cofficients are not change
+                ++ind_pt;
+            }
+            //                    printf("ind_pt number: %d\n", ind_pt);
+            //                    for (int i = 0; i< ind_pt; i++) {
+            //                        printf("%d\n",ind_t[i]);
+            //                    }
+            
+            //For the b part of Ax<=b
+            // The elements in b are always "0"
+            
+            //Add constraint
+            //*****************************
+            //error = GRBaddconstr(model, (int)non_zero_num, ind_t, val_t, GRB_LESS_EQUAL, 0.0, NULL);//load is negative value at this moment
+            //*****************************
+            
+            //Update model due to lazy model update strategy
+            error = GRBupdatemodel(model);
+            //if (error) goto QUIT;
+            GRBwrite (model, "groubi_obj.lp" );
+            GRBwrite (model, "groubi_obj.rlp" );
+        }// STATUS CHANGE CONSTRAINTS: Each year constraints are added
+        //printf("\n");
+        
+        //****The ending of One year constraints ****
+    }// STATUS MAINTAIN CONSTRAINTS: Total planning years constraints are added
+    // ******** The ending of set STATUS MAINTAIN constraints ********
     
     
     /* Solve */
     error = GRBoptimize(model);
     if (error) goto QUIT;
     
-//********This part will deal with code Finish or Crash********
+    //********This part will deal with code Finish or Crash********
 QUIT:
     
     // Error reporting
