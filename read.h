@@ -66,9 +66,9 @@ int diag(double *diag_array, double length, double *coeff_array);
 int ones(double *ones_array, double length); // This will give you an array with all one
 int Matrix_multiply(double *outcome, double *matrix_a, double a_row, double a_col, double *matrix_b, double b_row, double b_col);
 int Matrix_display(double *Matrix, double row, double col);
-double determinant(double *a, double);
-void cofactor(double *num, double f);
-void transpose(double *num, double *fac, double r);
+double determinant(double *matrix_need_inverse, double sizeof_square_inverse_matrix); // Part of inverse matrix
+void cofactor(double *matrix_need_inverse, double sizeof_square_inverse_matrix, double *desired_inversed_matrix); // Part of inverse matrix
+void transpose(double *matrix_need_inverse, double *fac, double sizeof_square_inverse_matrix, double *desired_inverse_matrix);
 
 /*Kl_C, Kp parameter calculation*/
 int Kl_C_set(double *Kl_C, Cline_struct Cline_info, double nbus, double nCline); // Kl_C
