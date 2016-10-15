@@ -980,7 +980,6 @@ int main()
             //I
             position_pt = position_pt + nCline_total;
             
-            
             //Set positive coefficient (ind_t) and positive position(val_t)
             int p_ind_t[(int)non_zero_num];
             double p_val_t[(int)non_zero_num];
@@ -1007,8 +1006,6 @@ int main()
                 ++n_ind_pt;
             }
 
-
-            
             //For the b part of Ax<=b
             // The elements in b are always "M"
             
@@ -1160,6 +1157,122 @@ int main()
     }//BRANCH LIMIT: Total planning years constraints are added
     // ******** The ending of set BRANCH LIMIT constraints ********
 
+    
+    // ******** The begining of Generation Limit constraints ********
+    for (int GL_year = 0; GL_year < (int)nplan_year; GL_year++) {
+        
+        //**** One year constraints ****
+        for (int GL_nGen_t = 0; GL_nGen_t < nGen; GL_nGen_t++) { // this will add number of bus constraints
+            
+            //For the A part of Ax<=b
+            double non_zero_num = 0;
+            double nonzero_GL_position[BUFFER_MAX];
+            double nonzero_GL_Pvalue[BUFFER_MAX];
+            double nonzero_GL_Nvalue[BUFFER_MAX];
+            
+            Array_initial(nonzero_GL_position, BUFFER_MAX);
+            Array_initial(nonzero_GL_Pvalue, BUFFER_MAX);
+            Array_initial(nonzero_GL_Nvalue, BUFFER_MAX);
+            
+            int nonzero_pt = 0;
+            int position_pt = 0;
+            
+            //Fkl_1
+            position_pt = position_pt + nCline_total;
+            
+            //Xkl
+            position_pt = position_pt + nCline_total;
+            
+            //Gk
+            double gen_GL_t[(int)(nGen * nGen)];
+            Array_initial(gen_GL_t,nGen * nGen);
+            eye(gen_GL_t, nGen);
+            //Matrix_display(gen_GL_t, nGen, nGen);
+            
+            for (int i = 0; i < nGen; i++) {
+                if ((gen_GL_t[(int)(i + GL_nGen_t*nGen)]) > 0) { //0+(i-1): the 0 can be used as variable
+                    ++non_zero_num;
+                    nonzero_GL_position[nonzero_pt] = position_pt;
+                    nonzero_GL_Pvalue[nonzero_pt] = (gen_GL_t[(int)(i + GL_nGen_t*nGen)]);
+                    nonzero_GL_Nvalue[nonzero_pt] =-(gen_GL_t[(int)(i + GL_nGen_t*nGen)]);
+                    //printf("%f\n", p_SC_position[p_pt]);
+                    ++nonzero_pt;
+                }
+                ++position_pt;
+            }
+            
+            
+            //Rk1
+            position_pt = position_pt + nbus;
+            
+            //Rk2
+            position_pt = position_pt + nbus;
+            
+            //theta
+            position_pt = position_pt + nbus;
+            
+            
+            //Gk_ts (it is the reverse of candidate line flow)
+            position_pt = position_pt + nCline_total;
+            
+            //I
+            position_pt = position_pt + nCline_total;
+            
+            
+            //Set positive coefficient (ind_t) and positive position(val_t)
+            int p_ind_t[(int)non_zero_num];
+            double p_val_t[(int)non_zero_num];
+            Array_initial_int(p_ind_t, non_zero_num);
+            Array_initial(p_val_t, non_zero_num);
+            int p_ind_pt = 0;
+            
+            for (int i = 0; i < (int) nonzero_pt; i++) { //positive coefficient
+                p_ind_t[p_ind_pt] = nonzero_GL_position[i] + (int)nAV*GL_year; // The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
+                p_val_t[p_ind_pt] = nonzero_GL_Pvalue[i];// But the value of cofficients are not change
+                ++p_ind_pt;
+            }
+            
+            //Set negative coefficient (ind_t) and negative position(val_t)
+            int n_ind_t[(int)non_zero_num];
+            double n_val_t[(int)non_zero_num];
+            Array_initial_int(n_ind_t, non_zero_num);
+            Array_initial(n_val_t, non_zero_num);
+            int n_ind_pt = 0;
+            
+            for (int i = 0; i < (int) nonzero_pt; i++) { //positive coefficient
+                n_ind_t[n_ind_pt] = nonzero_GL_position[i] + (int)nAV*GL_year; // The term "(int)nAV*NB_year" is offset of the year. When year increase, constraints just move in the matrix diagonal
+                n_val_t[n_ind_pt] = nonzero_GL_Nvalue[i];// But the value of cofficients are not change
+                ++n_ind_pt;
+            }
+            
+            
+            
+            //For the b part of Ax<=b
+            // The b is the Gmin and Gmax
+            
+            //Add constraint
+            //*****************************
+            //error = GRBaddconstr(model, (int)non_zero_num, p_ind_t, p_val_t, GRB_LESS_EQUAL, Gen_info.gen_max[GL_nGen_t], NULL);//load is negative value at this moment
+            //error = GRBaddconstr(model, (int)non_zero_num, n_ind_t, n_val_t, GRB_LESS_EQUAL,-Gen_info.gen_min[GL_nGen_t], NULL);//load is negative value at this moment
+            //*****************************
+            
+            //Update model due to lazy model update strategy
+            error = GRBupdatemodel(model);
+            //if (error) goto QUIT;
+            GRBwrite (model, "groubi_obj.lp" );
+            GRBwrite (model, "groubi_obj.rlp" );
+        }// STATUS CHANGE CONSTRAINTS: Each year constraints are added
+        //printf("\n");
+        //printf("\n");
+        //****The ending of One year constraints ****
+    }//GENERATION LIMIT: Total planning years constraints are added
+    // ******** The ending of set GENERATION LIMIT constraints ********
+    
+    
+        
+    
+    
+    
     
     
     /* Solve */
