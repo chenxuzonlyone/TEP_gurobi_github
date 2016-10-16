@@ -12,6 +12,11 @@
 #include <math.h>
 #include "gurobi_c.h"
 #include <string.h>
+# include <mpi.h>
+# include <time.h>
+
+
+
 
 int file_size(FILE * fstream, int *row, int *col)
 {
@@ -641,4 +646,223 @@ void Matrix_transpose(double *matrix_need_transpose,double row, double col, doub
             transposed_matrix[(int)(j*row+i)] = matrix_need_transpose[(int)(i*col+j)];
         }
     }
+}
+
+
+
+/******************************************************************************/
+void p0_stop_decision(int *stop_decision, int stop_counter, int end_point)
+/*
+ Purpose: program stop decision
+ */
+/******************************************************************************/
+{
+    if (stop_counter <= end_point )
+    {
+        *stop_decision = 1; //program will continue
+    }
+    else
+    {
+        *stop_decision = 0; // program will stop
+    }
+    //printf("this is %d loop, and the stop decision is %d \n", stop_counter, *stop_decision);
+    return;
+}
+
+/******************************************************************************/
+void p0_send_decision(int process_size,int stop_decision)
+/*
+ Purpose: Master node send stop decision to slave nodes
+ */
+/******************************************************************************/
+{
+    int id;
+    int ierr;
+    int tag;
+    int process_last = process_size - 1; // the last process's number
+    
+    for (int i=1; i <= process_last; i++)
+    {
+        id = i;
+        tag = i;
+        printf("the sent stop_decision%d is %d \n",id ,stop_decision);
+        ierr = MPI_Send ( &stop_decision, 1, MPI_INT, id, tag, MPI_COMM_WORLD );
+    }
+    return;
+}
+
+/******************************************************************************/
+void p0_set_input ( double *input, int process_size, int coef_length )
+/******************************************************************************/
+/*
+ Purpose:
+ The setting will give each processor its rank number. The coefficient will multiply to objective function, which will amplify obj. func. p times.
+ */
+{
+    int process_last = process_size - 1; // the last process's number
+    
+    for (int i=1; i<=process_last; i++){
+        
+        for (int j = 0; j < coef_length; j++){
+            
+            input[j+(i-1)*coef_length]= i; // change the coef. of obj. function according to rank(rank times original setup)
+        }
+    }
+    return;
+}
+/******************************************************************************/
+
+void p0_send_input ( double *input, int process_size, int coef_length )
+
+/******************************************************************************/
+/*
+ Purpose:
+ P0_SEND_INPUT sends input to processes 1 and 2.
+ 
+ Parameters:
+ Input, int INPUT1, INPUT2, the values of two
+ inputs used by tasks 1 and 2.
+ */
+{
+    int id;
+    int ierr;
+    int tag;
+    int process_last = process_size - 1; // the last process's number
+    
+    for (int i=1; i <= process_last; i++)
+    {
+        id = i;
+        tag = i;
+        //printf("id is %d, tag is %d \n", id, tag);
+        
+        ierr = MPI_Send ( &input[0+(i-1)*coef_length], coef_length, MPI_DOUBLE, id, tag, MPI_COMM_WORLD );
+        
+    }
+    return;
+}
+/******************************************************************************/
+
+void p0_receive_output ( double *output, int process_size )
+
+/******************************************************************************/
+/*
+ Purpose:
+ P0_RECEIVE_OUTPUT receives output from processes 1 and 2.
+
+ Parameters:
+ Output, int OUTPUT1, OUTPUT2, the values of the
+ outputs of tasks 1 and 2.
+ */
+{
+    int ierr;
+    int process_last = process_size - 1; // the last process's number
+    MPI_Status status[process_size-1];//except process 0, which is master process
+    
+    
+    for (int i=1; i<=process_last; i++)
+    {
+        ierr = MPI_Recv ( &output[i-1], 1, MPI_DOUBLE, i, 100+i,
+                         MPI_COMM_WORLD, &status[i-1] ); // slave message id is (100+id)
+        printf ( "\n" );
+        printf ( "  Process %d returned OUTPUT%d = %g\n", i, i, output[i-1] );
+    }
+    return;
+}
+
+/******************************************************************************/
+void p1_receive_decision(int *stop_decision_i, int id)
+/*
+ Purpose: receive the stop decision from master node
+ */
+/******************************************************************************/
+{
+    int recv_source = 0;
+    int ierr;
+    MPI_Status status;
+    int tag;
+    
+    tag = id;
+    
+    ierr = MPI_Recv ( stop_decision_i, 1, MPI_INT, recv_source, tag, MPI_COMM_WORLD, &status );
+    
+    //printf("process %d receive stop decision is %d \n", id, *stop_decision_i);
+    return;
+}
+
+/******************************************************************************/
+
+void p1_receive_input (double *input_i, int id, int coef_length)
+
+/******************************************************************************/
+/*
+ Purpose:
+ P1_RECEIVE_INPUT receives input from process 0.
+ 
+ Parameters:
+ Output, int P1_RECEIVE_INPUT, the value of the parameter.
+ */
+{
+    int recv_source = 0;
+    int ierr;
+    MPI_Status status;
+    int tag;
+    
+    tag = id;
+    
+    ierr = MPI_Recv ( input_i, coef_length, MPI_DOUBLE, recv_source, tag, MPI_COMM_WORLD, &status );
+    
+    /*
+     for (int i =0; i<3 ; i++)
+     {
+     printf(" the coeff.  is %f \n", input_i[i] );
+     }
+     */
+    
+    return ;
+}
+
+/******************************************************************************/
+void p1_send_output ( double output_i, int id )
+/******************************************************************************/
+/*
+ Purpose:
+ P1_SEND_OUTPUT sends output to process 0.
+ */
+{
+    int dest;
+    int ierr;
+    int tag;
+    
+    dest = 0; // the desitination is process 0
+    tag = 100 + id; // the slave send id is (100+id)
+    //printf(" process %d will send output %f \n", id, output_i);
+    ierr = MPI_Send ( &output_i, 1, MPI_DOUBLE, dest, tag, MPI_COMM_WORLD );
+    
+    return;
+}
+
+/******************************************************************************/
+void timestamp ( )
+/******************************************************************************/
+/*
+ Purpose:
+ TIMESTAMP prints the current YMDHMS date as a time stamp.
+ */
+{
+# define TIME_SIZE 40
+    
+    static char time_buffer[TIME_SIZE];//it exist through program execution. static storage duration, block scope, and no linkage. it's initialize just onece, when timestamp compiled. And set to 0 if not initialize it.
+    const struct tm *tm; //value can't be modified by assignment or by incrementing or decrementing
+    //the value of tm can be changed but tm points to a value that must remain constant
+    time_t now;//type suitable for storing the calendar time
+    
+    now = time ( NULL );//calculate the current calender time and encodes it into time_t format
+    tm = localtime ( &now );//the value of timer is broken up into the structure tm and expressed in the local time zone
+    
+    strftime ( time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm );//Formats the time represented in the structure timeptr according to the formatting rules defined in format and stored into str.
+    
+    printf ( "%s\n", time_buffer );
+    
+    return;
+# undef TIME_SIZE
 }

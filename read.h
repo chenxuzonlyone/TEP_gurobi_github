@@ -5,7 +5,6 @@
 //  Created by zhangcaihua on 9/19/16.
 //  Copyright © 2016 zhangcaihua. All rights reserved.
 //
-
 #ifndef read_h
 #define read_h
 #endif /* read_h */
@@ -78,4 +77,20 @@ int Kl_C_set(double *Kl_C, Cline_struct Cline_info, double nbus, double nCline);
 int Kp_set(double *Kp, Gen_struct Gen_info, double nbus, double nGen);// Kp
 int Kp_ts_set(double *Kp_ts, Cline_struct Cline_info, double nbus, double nCline);//Kp_ts
 int Kd_set(double *Kd, Load_struct Load_info, double nbus, double nload); // kd
+
+
+/*MPI related functions*/
+void p0_stop_decision(int *stop_decision, int stop_counter, int end_point);
+void p0_send_decision(int process_size,int stop_decision);
+
+//void p0_set_input ( double *input, int process_size, int coef_length ); // It is placed in the source file, which is easier to do modification
+void p0_send_input ( double *input, int process_size, int coef_length );
+void p0_receive_output ( double *output, int process_size );
+
+void p1_receive_decision(int *stop_decision_i, int id);
+void p1_receive_input (double *input_i, int id, int coef_length);
+void p0_set_input ( double *input, int process_size, int coef_length );
+void p1_send_output ( double output_i, int id );
+
+void timestamp ( );
 
