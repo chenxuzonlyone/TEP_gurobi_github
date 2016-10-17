@@ -47,12 +47,46 @@ double p1_compute_output ( double *input_i, int stop_decision_i, int coef_length
 int main ( int argc, char *argv[] )
 /******************************************************************************/
 {
+    //********This part related to cline info********
+    int row_cline, col_cline;
+    FILE *f_cline_stream = fopen("/Users/zhangcaihua/Desktop/TEP_gurobi_github/data/cline_info.csv", "r");
+    file_size(f_cline_stream, &row_cline, &col_cline);// get rows and cols from file
+    
+    //********This part related to gen info********
+    int row_gen, col_gen;
+    FILE *f_gen_stream = fopen("/Users/zhangcaihua/Desktop/TEP_gurobi_github/data/gen_info.csv", "r");
+    file_size(f_gen_stream, &row_gen, &col_gen);// get rows and cols from file
+    
+    //********This part related to load info********
+    int row_load, col_load;
+    FILE *f_load_stream = fopen("/Users/zhangcaihua/Desktop/TEP_gurobi_github/data/load_info.csv", "r");
+    file_size(f_load_stream, &row_load, &col_load);// get rows and cols from file
+    
+    double nbus = BUS_NUM; //        ****(control)
+    double nCline = row_cline;
+    double nGen = row_gen;
+    double nMLC = 1; //nMaxLineConnect ****(control)
+    double nCline_total = nCline*nMLC;
+    double nplan_year=5;// numbers of planning years ****(control)
+    //     Fkl_1            Xkl+Gk_ts           Gk       S1 S2 thata  I
+    double nAV=(nCline*nMLC)+(nCline*nMLC)*2+(nGen)+(nbus*3)+nCline_total; //numbers of  annual variable
+    double nVariable_total = nplan_year*nAV;
+    
     int id;
     int ierr;
-    int coef_length=3; // This is the numbers of variables
-    int end_point = 3; // This is the total loop number the program will run
+    int coef_length=nVariable_total; // This is the numbers of variables
+    int end_point = 3; // This is the total loop number the program will run ****(control)
     int p;
     double wtime;
+    
+    // The file can be free because I think the settings are already stored in the "Model", and "Environment"
+    fclose(f_cline_stream);
+    fclose(f_gen_stream);
+    fclose(f_load_stream);
+    
+    
+    
+
     
     /*
      Process 0 is the "monitor".
@@ -207,12 +241,20 @@ double p1_compute_output ( double *input_i, int stop_decision_i, int coef_length
     int       optimstatus;
     double    objval;
     int       error = 0;
-    double    obj[coef_length];
-    
+    //double    obj[coef_length];
+    //static double f[265];
+    double f[(int)coef_length];
+    Array_initial(f, coef_length);
     
     
     if (initial_setup == 1) // start envirnoment setup
     {
+        
+        initial_setup = 0; // close initial setup when it already done
+        
+        
+        
+        
         //********This part related to cline info********
         int row_cline, col_cline;
         
@@ -425,8 +467,8 @@ double p1_compute_output ( double *input_i, int stop_decision_i, int coef_length
         //********This part deal with Gurobi ********
         
         //****This part deal with objective function setting****
-        double f[(int)nVariable_total];
-        Array_initial(f, nVariable_total);
+        //double f[(int)nVariable_total]; // This is the setting of obj. in the Gurobi
+        //Array_initial(f, nVariable_total);
         double lb[(int)nVariable_total];
         Array_initial(lb, nVariable_total);
         double ub[(int)nVariable_total];
@@ -448,7 +490,7 @@ double p1_compute_output ( double *input_i, int stop_decision_i, int coef_length
         //line_initial(candidate_line_pool)=0;% the meaning is to let the candidate line binary variable limit from 0 to 1
         
         //Array_initial(f, nVariable_total);
-        Array_initial(f, nVariable_total);
+        //Array_initial(f, nVariable_total);
         int var_pt = 0;
         
         for (int i_year = 1; i_year <= nplan_year; i_year++) {
@@ -524,13 +566,17 @@ double p1_compute_output ( double *input_i, int stop_decision_i, int coef_length
         
         
         //****This part deal with Gurobi setting****
-        GRBenv *env = NULL;
-        GRBmodel *model = NULL;
+//        GRBenv *env = NULL;
+//        GRBmodel *model = NULL;
         int error = 0;
         char vname[MAXSTR];
         
         // Create environment
         error = GRBloadenv(&env, "TEP_GUROBI.log");
+        //if (error) goto QUIT;
+        
+        /*SET output is none after optimization*/
+        error = GRBsetintparam(env, GRB_INT_PAR_OUTPUTFLAG, 0);
         //if (error) goto QUIT;
         
         // Create initial model
@@ -1702,30 +1748,12 @@ double p1_compute_output ( double *input_i, int stop_decision_i, int coef_length
         // ******** The ending of set PSEUDO GENERATOR LINE LIMIT constraints ********
         
         
-        /* Solve */
-        error = GRBoptimize(model);
-        if (error) goto QUIT;
-        
-        //********This part will deal with code Finish or Crash********
-    QUIT:
-        
-        // Error reporting
-        
-        if (error)
-        {
-            printf("ERROR: %s\n", GRBgeterrormsg(env));
-            exit(1);
-        }
-        
-        // Free model
-        
-        GRBfreemodel(model);
-        
-        // Free environment
-        
-        GRBfreeenv(env);
+        /* Solve (The model will be solved later)*/
+        //error = GRBoptimize(model);
+        //if (error) goto QUIT;
         
         //********This part will close file and clean memory********
+        // The file can be free because I think the settings are already stored in the "Model", and "Environment"
         fclose(f_cline_stream);
         free(Cline_data_space);
         
@@ -1734,7 +1762,10 @@ double p1_compute_output ( double *input_i, int stop_decision_i, int coef_length
         
         fclose(f_load_stream);
         free(Load_data_space);
+        
+
     }
+
     
     
     else            // after envirnoment setup, no need setup again
@@ -1745,12 +1776,14 @@ double p1_compute_output ( double *input_i, int stop_decision_i, int coef_length
         // change the coef. of variables
         for(int i=0;i<coef_length;i++)
         {
-            obj[i]=obj[i] * input_i[i] ;
+            //f[i]=f[i] * (*input_i) ;
             //printf("the updated coef. is %f \n", obj[i]);
+            GRBgetdblattrelement(model, "Obj", i, &(f[i]));
+            f[i] = f[i] * input_i[i];
             change_index[i] = i;
         }
-        
-        error = GRBsetdblattrlist(model, "Obj", coef_length, change_index, obj);
+        printf("the updated coef. is %f \n", *input_i);
+        error = GRBsetdblattrlist(model, "Obj", coef_length, change_index, f);
         if (error) goto QUIT;
         // program update
         error = GRBupdatemodel(model);
@@ -1780,9 +1813,8 @@ double p1_compute_output ( double *input_i, int stop_decision_i, int coef_length
     if (error) goto QUIT;
     
     /* Write model to 'mip1.lp' */
-    
-    error = GRBwrite(model, "mip1.lp");
-    if (error) goto QUIT;
+    GRBwrite (model, "groubi_obj.lp" );
+    GRBwrite (model, "groubi_obj.rlp" );
     
     /* Capture solution information */
     
@@ -1792,7 +1824,7 @@ double p1_compute_output ( double *input_i, int stop_decision_i, int coef_length
     error = GRBgetdblattr(model, GRB_DBL_ATTR_OBJVAL, &objval);
     if (error) goto QUIT;
     
-    error = GRBgetdblattrarray(model, GRB_DBL_ATTR_X, 0, 3, sol);
+    error = GRBgetdblattrarray(model, GRB_DBL_ATTR_X, 0, coef_length, sol);
     if (error) goto QUIT;
     
     
@@ -1823,13 +1855,17 @@ QUIT:
     
     if (stop_decision_i==0) // stop_decision = 0 means calculation will stop, and envirnoment, model will be release
     {
-        /* Free model */
+        //********This part will deal with code Finish or Crash********
+        
+        // Free model
         
         GRBfreemodel(model);
         
-        /* Free environment */
+        // Free environment
         
         GRBfreeenv(env);
+        
+        //********This part will deal with code Finish or Crash********
     }
     
     
